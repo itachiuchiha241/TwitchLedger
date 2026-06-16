@@ -1,0 +1,17 @@
+# Environment files
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+
+# Django
+db.sqlite3
+
+# Logs
+*.log
+
+# Operating system files
+.DS_Store
+Thumbs.db
