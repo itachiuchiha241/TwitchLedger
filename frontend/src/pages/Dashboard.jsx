@@ -13,8 +13,8 @@ function Dashboard() {
 
       <ProfileCard />
 
-      <StatsCard title="Gifted Subs" value="7000" />
-      <StatsCard title="Bits Donated" value="125000" />
+      <StatsCard title="Gifted Subs" value="8540" />
+      <StatsCard title="Bits Donated" value="70000" />
       <StatsCard title="Channels Supported" value="3" />
 
       <SupportedChannels />
