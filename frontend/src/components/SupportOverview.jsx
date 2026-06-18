@@ -1,6 +1,6 @@
 function SupportOverview() {
   return (
-    <div>
+    <div className="card">
       <h2>Support Overview</h2>
 
       <p>Total Gifted Subs: 8540</p>
