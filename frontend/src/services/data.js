@@ -10,8 +10,6 @@ export const channels = [
     bits: 50000,
     avatar: kokohaanAvatar,
     twitchUrl: "https://www.twitch.tv/kokohaan",
-    firstGiftDate: "...",
-    lastGiftDate: "...",
   },
   {
     name: "がぶ飲みちゃん",
@@ -19,17 +17,13 @@ export const channels = [
     bits: 25000,
     avatar: gabuAvatar,
     twitchUrl: "https://www.twitch.tv/gabuchan_sy",
-    firstGiftDate: "...",
-    lastGiftDate: "...",
   },
   {
     name: "我妻まや",
     subs: 1219,
-    bits: 0,
+    bits: 1200,
     avatar: mayaAvatar,
     twitchUrl: "https://www.twitch.tv/agatsuma_maya",
-    firstGiftDate: "...",
-    lastGiftDate: "...",
   },
   {
     name: "れんれんだよぉ",
@@ -37,7 +31,5 @@ export const channels = [
     bits: 0,
     avatar: renrenAvatar,
     twitchUrl: "https://www.twitch.tv/lenlendayoo",
-    firstGiftDate: "...",
-    lastGiftDate: "...",
   },
 ];

@@ -14,24 +14,18 @@ function SupportedChannels() {
               className="channel-avatar"
             />
 
-            <div>
-              <strong>
-                <a
-                  href={channel.twitchUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {channel.name}
-                </a>
-              </strong>
+            <div className="channel-info">
+              <a
+                href={channel.twitchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="channel-name"
+              >
+                {channel.name}
+              </a>
 
-              <br />
-
-              {channel.subs.toLocaleString()} Subs Gifted
-
-              <br />
-
-              {channel.bits.toLocaleString()} Bits Donated
+              <p>{channel.subs.toLocaleString()} Subs Gifted</p>
+              <p>{channel.bits.toLocaleString()} Bits Donated</p>
             </div>
           </li>
         ))}
