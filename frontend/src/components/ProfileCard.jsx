@@ -1,7 +1,13 @@
+import profilePic from "../assets/prem.png";
+
 function ProfileCard() {
   return (
     <div className="card profile-card">
-      <div className="avatar">P</div>
+      <img
+        src={profilePic}
+        alt="Prem"
+        className="avatar"
+      />
 
       <div>
         <h2>Prem</h2>

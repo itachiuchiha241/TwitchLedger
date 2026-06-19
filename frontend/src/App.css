@@ -69,10 +69,10 @@ aside ul li:hover {
 
 
 .sidebar {
-  width: 250px;
+  width: 200px;
   min-height: 100vh;
   background: #11111d;
-  padding: 20px;
+  padding: 15px 8px;
   border-right: 1px solid #2b2b45;
 }
 
@@ -129,11 +129,47 @@ aside ul li:hover {
 }
 
 .stats-card,
-.profile-card,
 .supported-channels,
 .support-overview {
   background: #151526;
   border: 1px solid #2d2d4d;
   border-radius: 20px;
   padding: 25px;
+}
+
+.profile-card {
+  padding: 25px;
+  margin-bottom: 20px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-stats {
+  margin-top: 20px;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.profile-stats div {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-stats strong {
+  font-size: 22px;
+  color: #9147ff;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 3px solid #9147ff;
 }
