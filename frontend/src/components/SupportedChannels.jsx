@@ -1,12 +1,20 @@
+import { channels } from "../services/data";
+
 function SupportedChannels() {
   return (
-    <div className="card">
+    <div className="card supported-channels">
       <h2>Supported Channels</h2>
 
       <ul className="channel-list">
-        <li>心羽あん - 3701 Subs</li>
-        <li>がぶ飲みちゃん - 3620 Subs</li>
-        <li>我妻まや - 1219 Subs</li>
+        {channels.map((channel) => (
+          <li key={channel.name}>
+            <strong>{channel.name}</strong>
+            <br />
+            {channel.subs.toLocaleString()} Subs Gifted
+            <br />
+            {channel.bits.toLocaleString()} Bits Donated
+          </li>
+        ))}
       </ul>
     </div>
   );

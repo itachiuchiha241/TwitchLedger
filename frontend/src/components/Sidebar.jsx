@@ -1,9 +1,9 @@
 function Sidebar() {
   return (
-    <div>
-      <h2>TwitchLedger</h2>
+    <aside className="sidebar">
+      <h2 className="logo">TwitchLedger</h2>
 
-      <ul>
+      <ul className="sidebar-menu">
         <li>Dashboard</li>
         <li>Search User</li>
         <li>Channels</li>
@@ -12,7 +12,7 @@ function Sidebar() {
         <li>Achievements</li>
         <li>Settings</li>
       </ul>
-    </div>
+    </aside>
   );
 }
 
