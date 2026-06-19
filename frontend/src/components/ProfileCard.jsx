@@ -5,12 +5,12 @@ function ProfileCard() {
     <div className="card profile-card">
       <img
         src={profilePic}
-        alt="Prem"
+        alt="prem241t"
         className="avatar"
       />
 
       <div>
-        <h2>Prem</h2>
+        <h2>prem241t</h2>
         <p>Twitch Supporter</p>
       </div>
     </div>

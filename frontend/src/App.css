@@ -173,3 +173,29 @@ aside ul li:hover {
   object-position: center;
   border: 3px solid #9147ff;
 }
+
+.channel-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #2b2b45;
+}
+
+.channel-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #9147ff;
+}
+
+.channel-item a {
+  color: white;
+  text-decoration: none;
+}
+
+.channel-item a:hover {
+  color: #9147ff;
+}
+

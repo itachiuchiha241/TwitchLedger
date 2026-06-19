@@ -7,12 +7,32 @@ function SupportedChannels() {
 
       <ul className="channel-list">
         {channels.map((channel) => (
-          <li key={channel.name}>
-            <strong>{channel.name}</strong>
-            <br />
-            {channel.subs.toLocaleString()} Subs Gifted
-            <br />
-            {channel.bits.toLocaleString()} Bits Donated
+          <li key={channel.name} className="channel-item">
+            <img
+              src={channel.avatar}
+              alt={channel.name}
+              className="channel-avatar"
+            />
+
+            <div>
+              <strong>
+                <a
+                  href={channel.twitchUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {channel.name}
+                </a>
+              </strong>
+
+              <br />
+
+              {channel.subs.toLocaleString()} Subs Gifted
+
+              <br />
+
+              {channel.bits.toLocaleString()} Bits Donated
+            </div>
           </li>
         ))}
       </ul>
