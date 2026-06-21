@@ -2,8 +2,8 @@ import Sidebar from "../components/Sidebar";
 import ProfileCard from "../components/ProfileCard";
 import StatsCard from "../components/StatsCard";
 import SupportedChannels from "../components/SupportedChannels";
-import SupportOverview from "../components/SupportOverview";
 import { channels } from "../services/data";
+
 
 function Dashboard() {
   const totalSubs = channels.reduce(
@@ -52,7 +52,6 @@ function Dashboard() {
 
         <div className="content-grid">
           <SupportedChannels />
-          <SupportOverview />
         </div>
       </main>
     </div>
