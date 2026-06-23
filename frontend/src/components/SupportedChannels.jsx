@@ -1,172 +1,207 @@
 import { channels } from "../services/data";
 
 import {
-getGiftBadgeImage,
-getBitsBadgeImage,
+  getGiftBadgeImage,
+  getBitsBadgeImage,
 } from "../services/badgeImages";
 
 import {
-giftSubBadges,
-bitsBadges,
+  giftSubBadges,
+  bitsBadges,
 } from "../services/badgeLevels";
 
 import {
-getCurrentBadge,
-getNextBadge,
-getProgress,
+  getCurrentBadge,
+  getNextBadge,
+  getProgress,
+  getRemaining,
 } from "../services/badgeUtils";
 
-function SupportedChannels() {
-return ( <div className="card supported-channels"> <h2>Supported Channels</h2>
+function SupportedChannels({ searchTerm }) {
+  const filteredChannels = channels.filter((channel) =>
+    channel.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
 
-  <ul className="channel-list">
-    {channels.map((channel) => {
-      const currentSubBadge = getCurrentBadge(
-        channel.subs,
-        giftSubBadges
-      );
+  return (<div className="card supported-channels"> <h2>Supported Channels</h2>
 
-      const nextSubBadge = getNextBadge(
-        channel.subs,
-        giftSubBadges
-      );
+    {filteredChannels.length === 0 && (
+      <p>No channels found.</p>
+    )}
 
-      const subProgress = getProgress(
-        channel.subs,
-        giftSubBadges
-      );
+    <ul className="channel-list">
+      {filteredChannels.map((channel) => {
+        const currentSubBadge = getCurrentBadge(
+          channel.subs,
+          giftSubBadges
+        );
 
-      const currentBitsBadge = getCurrentBadge(
-        channel.bits,
-        bitsBadges
-      );
+        const nextSubBadge = getNextBadge(
+          channel.subs,
+          giftSubBadges
+        );
 
-      const nextBitsBadge = getNextBadge(
-        channel.bits,
-        bitsBadges
-      );
+        const subProgress = getProgress(
+          channel.subs,
+          giftSubBadges
+        );
 
-      const bitsProgress = getProgress(
-        channel.bits,
-        bitsBadges
-      );
+        const subRemaining = getRemaining(
+          channel.subs,
+          giftSubBadges
+        );
 
-      return (
-        <li
-          key={channel.name}
-          className="channel-item"
-        >
-          <img
-            src={channel.avatar}
-            alt={channel.name}
-            className="channel-avatar"
-          />
+        const currentBitsBadge = getCurrentBadge(
+          channel.bits,
+          bitsBadges
+        );
 
-          <div className="channel-info">
-            <a
-              href={channel.twitchUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="channel-name"
-            >
-              {channel.name}
-            </a>
+        const nextBitsBadge = getNextBadge(
+          channel.bits,
+          bitsBadges
+        );
 
-            <p>
-              {channel.subs.toLocaleString()} Subs Gifted
-            </p>
+        const bitsProgress = getProgress(
+          channel.bits,
+          bitsBadges
+        );
 
-            <p>
-              {channel.bits.toLocaleString()} Bits Donated
-            </p>
-          </div>
+        const bitsRemaining = getRemaining(
+          channel.bits,
+          bitsBadges
+        );
 
-          <div className="channel-progress">
-            <div className="badge-row">
-              <div className="badge-container">
-                {currentSubBadge ? (
-                  <img
-                    src={getGiftBadgeImage(
-                      currentSubBadge
-                    )}
-                    alt="Current Sub Badge"
-                    className="badge-icon"
-                  />
-                ) : (
-                  <span>—</span>
-                )}
-              </div>
+        return (
+          <li
+            key={channel.name}
+            className="channel-item"
+          >
+            <img
+              src={channel.avatar}
+              alt={channel.name}
+              className="channel-avatar"
+            />
 
-              <div className="progress-bar">
-                <div
-                  className="progress-fill"
-                  style={{
-                    width: `${subProgress}%`,
-                  }}
-                ></div>
-              </div>
+            <div className="channel-info">
+              <a
+                href={channel.twitchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="channel-name"
+              >
+                {channel.name}
+              </a>
 
-              <div className="badge-container">
-                {nextSubBadge ? (
-                  <img
-                    src={getGiftBadgeImage(
-                      nextSubBadge
-                    )}
-                    alt="Next Sub Badge"
-                    className="badge-icon"
-                  />
-                ) : (
-                  <span>✓</span>
-                )}
-              </div>
+              <p>
+                {channel.subs.toLocaleString()} Subs Gifted
+              </p>
+
+              <p>
+                {channel.bits.toLocaleString()} Bits Donated
+              </p>
             </div>
 
-            <div className="badge-row">
-              <div className="badge-container">
-                {currentBitsBadge ? (
-                  <img
-                    src={getBitsBadgeImage(
-                      currentBitsBadge
-                    )}
-                    alt="Current Bits Badge"
-                    className="badge-icon"
-                  />
-                ) : (
-                  <span>—</span>
-                )}
+            <div className="channel-progress">
+              {/* SUB BADGES */}
+              <div className="badge-row">
+                <div className="badge-container">
+                  {currentSubBadge ? (
+                    <img
+                      src={getGiftBadgeImage(
+                        currentSubBadge
+                      )}
+                      alt="Current Sub Badge"
+                      className="badge-icon"
+                    />
+                  ) : (
+                    <span>—</span>
+                  )}
+                </div>
+
+                <div className="progress-bar">
+                  <div
+                    className="progress-fill"
+                    style={{
+                      width: `${subProgress}%`,
+                    }}
+                  ></div>
+                </div>
+
+                <div className="badge-container">
+                  {nextSubBadge ? (
+                    <img
+                      src={getGiftBadgeImage(
+                        nextSubBadge
+                      )}
+                      alt="Next Sub Badge"
+                      className="badge-icon"
+                    />
+                  ) : (
+                    <span>✓</span>
+                  )}
+                </div>
               </div>
 
-              <div className="progress-bar">
-                <div
-                  className="progress-fill"
-                  style={{
-                    width: `${bitsProgress}%`,
-                  }}
-                ></div>
+              <p className="remaining-text">
+                {nextSubBadge
+                  ? `${subRemaining.toLocaleString()} subs to next badge`
+                  : "Maximum sub badge reached"}
+              </p>
+
+              {/* BITS BADGES */}
+              <div className="badge-row">
+                <div className="badge-container">
+                  {currentBitsBadge ? (
+                    <img
+                      src={getBitsBadgeImage(
+                        currentBitsBadge
+                      )}
+                      alt="Current Bits Badge"
+                      className="badge-icon"
+                    />
+                  ) : (
+                    <span>—</span>
+                  )}
+                </div>
+
+                <div className="progress-bar">
+                  <div
+                    className="progress-fill"
+                    style={{
+                      width: `${bitsProgress}%`,
+                    }}
+                  ></div>
+                </div>
+
+                <div className="badge-container">
+                  {nextBitsBadge ? (
+                    <img
+                      src={getBitsBadgeImage(
+                        nextBitsBadge
+                      )}
+                      alt="Next Bits Badge"
+                      className="badge-icon"
+                    />
+                  ) : (
+                    <span>✓</span>
+                  )}
+                </div>
               </div>
 
-              <div className="badge-container">
-                {nextBitsBadge ? (
-                  <img
-                    src={getBitsBadgeImage(
-                      nextBitsBadge
-                    )}
-                    alt="Next Bits Badge"
-                    className="badge-icon"
-                  />
-                ) : (
-                  <span>✓</span>
-                )}
-              </div>
+              <p className="remaining-text">
+                {nextBitsBadge
+                  ? `${bitsRemaining.toLocaleString()} bits to next badge`
+                  : "Maximum bits badge reached"}
+              </p>
             </div>
-          </div>
-        </li>
-      );
-    })}
-  </ul>
-</div>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
 
-);
+  );
 }
 
 export default SupportedChannels;

@@ -2,33 +2,39 @@
 .card {
   background: #161625;
   border: 1px solid #2b2b45;
-  border-radius: 18px;
+  border-radius: 24px;
   padding: 20px;
-  box-shadow: 0 0 25px rgba(145, 71, 255, 0.15);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.25),
+    0 4px 12px rgba(145, 71, 255, 0.12);
 }
-.profile-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
-}
+
 .dashboard-layout {
   display: flex;
   min-height: 100vh;
 }
 
-/* main starts of userprofile */
-.avatar {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background: #9147ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  font-weight: bold;
+.card,
+.stats-card,
+.supported-channels {
+  transition:
+    transform 0.8s ease,
+    box-shadow 0.8s ease;
 }
+
+.card:hover,
+.stats-card:hover,
+.supported-channels:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.3),
+    0 6px 16px rgba(145, 71, 255, 0.18);
+}
+
+/* main starts of userprofile */
+
 .stats-card {
   text-align: center;
 }
@@ -51,40 +57,52 @@
 
 /* Sidebar */
 
-aside ul li {
-  padding: 12px;
-  margin-bottom: 8px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-aside ul li:hover {
-  background: #9147ff;
-}
 .sidebar {
-  width: 200px;
+  width: 220px;
   min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
   background: #11111d;
-  padding: 15px 8px;
+  padding: 20px 12px;
+
   border-right: 1px solid #2b2b45;
 }
 .logo {
   color: #9147ff;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  text-align: center;
 }
 .sidebar-menu {
   list-style: none;
+  flex: 1;
 }
 .sidebar-menu li {
-  padding: 14px;
-  margin-bottom: 10px;
-  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 16px;
+  margin-bottom: 12px;
+
+  border-radius: 12px;
   cursor: pointer;
-  transition: 0.2s;
+
+  transition: all 0.3s ease;
 }
 .sidebar-menu li:hover {
   background: #9147ff;
 }
+.sidebar-menu li svg {
+  color: #9147ff;
+  font-size: 18px;
+}
+.sidebar-menu li:hover svg {
+  color: white;
+}
+
+
 .main-content {
   flex: 1;
   padding: 30px;
@@ -116,32 +134,8 @@ aside ul li:hover {
   border-radius: 20px;
   padding: 25px;
 }
-.profile-card {
-  padding: 25px;
-  margin-bottom: 20px;
-}
-.profile-header {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-.profile-stats {
-  margin-top: 20px;
-  display: flex;
-  gap: 30px;
-  flex-wrap: wrap;
-}
-.profile-stats div {
-  display: flex;
-  flex-direction: column;
-}
-.profile-stats strong {
-  font-size: 22px;
-  color: #9147ff;
-}
 
-
-/* User profile */
+/* Profile Card */
 
 .avatar {
   width: 80px;
@@ -152,6 +146,26 @@ aside ul li:hover {
   border: 3px solid #9147ff;
 }
 
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 25px;
+  margin-bottom: 20px;
+}
+.profile-link {
+  color: white;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.profile-link:hover {
+  color: #9147ff;
+}
+.profile-card p {
+  color: #b0b0c0;
+  margin-top: 4px;
+}
+
 
 /* content creators channel profile*/
 
@@ -159,7 +173,7 @@ aside ul li:hover {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 20px 0;
+  padding: 16px 0;
   border-bottom: 1px solid #2b2b45;
 }
 .channel-avatar {
@@ -198,12 +212,12 @@ aside ul li:hover {
 .channel-item:last-child {
   border-bottom: none;
 }
+
 .channel-progress {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  justify-content: center;
+  gap: 6px;
 }
 
 /* badge progress */
@@ -212,12 +226,6 @@ aside ul li:hover {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.badge-placeholder {
-  width: 32px;
-  text-align: center;
-  font-size: 20px;
 }
 
 .progress-bar {
@@ -230,15 +238,21 @@ aside ul li:hover {
 
 .progress-fill {
   height: 100%;
-  background: #9147ff;
+  background: linear-gradient(
+    90deg,
+    #9147ff,
+    #b366ff
+  );
+  transition: width 0.3s ease;
+}
+.progress-text {
+  text-align: center;
+  font-size: 12px;
+  color: #b0b0c0;
+  margin: 2px 0 4px 0;
+  line-height: 1.2;
 }
 
-.badge-icon {
-  width: 32px;
-  height: 32px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
 .badge-container {
   width: 32px;
   height: 32px;
@@ -255,3 +269,119 @@ aside ul li:hover {
   object-fit: contain;
   display: block;
 }
+.remaining-text {
+  font-size: 11px;
+  color: #9d9db3;
+  text-align: center;
+  margin: -2px 0 2px 0;
+  line-height: 1.2;
+}
+
+
+/* Theme Button */
+
+.theme-toggle {
+  width: 50px;
+  height: 50px;
+
+  margin: 20px auto 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #9147ff;
+  color: white;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+
+.theme-toggle:hover {
+  transform: scale(1.08) rotate(15deg);
+
+  box-shadow:
+    0 0 20px rgba(145, 71, 255, 0.4);
+}
+
+/* Light Theme */
+
+.light-theme {
+  background: #e9e9ee;
+  color: #111;
+}
+
+.light-theme .main-content {
+  background: #e9e9ee;
+}
+
+.light-theme .sidebar {
+  background: #f8f8fa;
+  border-right: 1px solid #d0d0d0;
+}
+
+.light-theme .card,
+.light-theme .stats-card,
+.light-theme .supported-channels {
+  background: #ffffff;
+  border: 1px solid #d8d8d8;
+  color: black;
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.08),
+    0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.light-theme .channel-name,
+.light-theme .profile-link,
+.light-theme h1,
+.light-theme h2 {
+  color: black;
+}
+
+.light-theme .channel-info p,
+.light-theme .remaining-text,
+.light-theme .card-title {
+  color: #666;
+}
+
+.light-theme .search-bar {
+  background: white;
+  color: black;
+  border: 2px solid #9147ff;
+}
+
+.light-theme .progress-bar {
+  background: #d7d7e8;
+}
+
+.light-theme .channel-item {
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.dashboard-layout,
+.sidebar,
+.main-content,
+.card,
+.stats-card,
+.supported-channels,
+.search-bar,
+.channel-item,
+.channel-name,
+.channel-info p,
+.profile-link,
+.card-title,
+.remaining-text,
+.progress-bar {
+  transition:
+    background-color 0.8s ease,
+    color 0.8s ease,
+    border-color 0.8s ease,
+    box-shadow 0.8s ease;
+}
+

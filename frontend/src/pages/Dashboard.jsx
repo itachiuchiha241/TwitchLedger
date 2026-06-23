@@ -1,32 +1,69 @@
+import { useState, useEffect } from "react";
+
 import Sidebar from "../components/Sidebar";
 import ProfileCard from "../components/ProfileCard";
 import StatsCard from "../components/StatsCard";
 import SupportedChannels from "../components/SupportedChannels";
 import { channels } from "../services/data";
 
-
 function Dashboard() {
+  const [searchTerm, setSearchTerm] =
+    useState("");
+
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedTheme =
+      localStorage.getItem("theme");
+
+    if (savedTheme === "light") {
+      return false;
+    }
+
+    return true;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(
+      "theme",
+      darkMode ? "dark" : "light"
+    );
+  }, [darkMode]);
+
   const totalSubs = channels.reduce(
-    (total, channel) => total + channel.subs,
+    (total, channel) =>
+      total + channel.subs,
     0
   );
 
   const totalBits = channels.reduce(
-    (total, channel) => total + channel.bits,
+    (total, channel) =>
+      total + channel.bits,
     0
   );
 
   const totalChannels = channels.length;
 
   return (
-    <div className="dashboard-layout">
-      <Sidebar />
+    <div
+      className={`dashboard-layout ${
+        darkMode
+          ? "dark-theme"
+          : "light-theme"
+      }`}
+    >
+      <Sidebar
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+      />
 
       <main className="main-content">
         <input
           className="search-bar"
           type="text"
           placeholder="Search Twitch username..."
+          value={searchTerm}
+          onChange={(e) =>
+            setSearchTerm(e.target.value)
+          }
         />
 
         <h1>TwitchLedger Dashboard</h1>
@@ -51,7 +88,9 @@ function Dashboard() {
         </div>
 
         <div className="content-grid">
-          <SupportedChannels />
+          <SupportedChannels
+            searchTerm={searchTerm}
+          />
         </div>
       </main>
     </div>

@@ -6,8 +6,8 @@ import renrenAvatar from "../assets/lenlendayoo.png";
 export const channels = [
   {
     name: "心羽あん",
-    subs: 3782,
-    bits: 50000,
+    subs: 3809,
+    bits: 50645,
     avatar: kokohaanAvatar,
     twitchUrl: "https://www.twitch.tv/kokohaan",
   },
@@ -27,7 +27,7 @@ export const channels = [
   },
   {
     name: "れんれんだよぉ",
-    subs: 70,
+    subs: 100,
     bits: 0,
     avatar: renrenAvatar,
     twitchUrl: "https://www.twitch.tv/lenlendayoo",
