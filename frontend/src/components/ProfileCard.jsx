@@ -2,6 +2,7 @@ import profilePic from "../assets/prem.png";
 
 function ProfileCard() {
   return (
+    
     <div className="card profile-card">
       <a
         href="https://www.twitch.tv/prem241t"

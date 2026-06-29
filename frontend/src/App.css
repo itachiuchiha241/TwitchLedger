@@ -1,10 +1,8 @@
-
 .card {
   background: #161625;
   border: 1px solid #2b2b45;
   border-radius: 24px;
   padding: 20px;
-
   box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.25),
     0 4px 12px rgba(145, 71, 255, 0.12);
@@ -18,15 +16,17 @@
 .card,
 .stats-card,
 .supported-channels {
-  transition:
-    transform 0.8s ease,
-    box-shadow 0.8s ease;
+  background: #151526;
+  border: 1px solid #2d2d4d;
+  border-radius: 24px;
+  padding: 25px;
+  transition: all 0.6s ease;
 }
 
 .card:hover,
 .stats-card:hover,
 .supported-channels:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 
   box-shadow:
     0 16px 40px rgba(0, 0, 0, 0.3),
@@ -38,18 +38,22 @@
 .stats-card {
   text-align: center;
 }
+
 .card-title {
   color: #b0b0c0;
   margin-bottom: 10px;
 }
+
 .card-value {
   color: #9147ff;
   font-size: 32px;
 }
+
 .channel-list {
   list-style: none;
   margin-top: 15px;
 }
+
 .channel-list li {
   padding: 12px 0;
   border-bottom: 1px solid #ffffff;
@@ -58,46 +62,46 @@
 /* Sidebar */
 
 .sidebar {
-  width: 220px;
+  width: 200px;
   min-height: 100vh;
-
   display: flex;
   flex-direction: column;
-
   background: #11111d;
-  padding: 20px 12px;
-
+  padding: 15px 8px;
   border-right: 1px solid #2b2b45;
 }
+
 .logo {
   color: #9147ff;
   margin-bottom: 40px;
   text-align: center;
 }
+
 .sidebar-menu {
   list-style: none;
-  flex: 1;
 }
+
 .sidebar-menu li {
   display: flex;
   align-items: center;
   gap: 12px;
-
-  padding: 14px 16px;
-  margin-bottom: 12px;
-
+  padding: 15px 16px;
+  margin-bottom: 15px;
+  margin-top: 15px;
   border-radius: 12px;
   cursor: pointer;
-
   transition: all 0.3s ease;
 }
+
 .sidebar-menu li:hover {
   background: #9147ff;
 }
+
 .sidebar-menu li svg {
   color: #9147ff;
   font-size: 18px;
 }
+
 .sidebar-menu li:hover svg {
   color: white;
 }
@@ -107,6 +111,7 @@
   flex: 1;
   padding: 30px;
 }
+
 .search-bar {
   width: 100%;
   max-width: 700px;
@@ -118,15 +123,18 @@
   font-size: 16px;
   margin-bottom: 30px;
 }
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin: 25px 0;
 }
+
 .content-grid {
   margin-top: 20px;
 }
+
 .stats-card,
 .supported-channels {
   background: #151526;
@@ -152,15 +160,19 @@
   gap: 16px;
   padding: 25px;
   margin-bottom: 20px;
+
 }
+
 .profile-link {
   color: white;
   text-decoration: none;
   transition: color 0.2s ease;
 }
+
 .profile-link:hover {
   color: #9147ff;
 }
+
 .profile-card p {
   color: #b0b0c0;
   margin-top: 4px;
@@ -175,7 +187,12 @@
   gap: 20px;
   padding: 16px 0;
   border-bottom: 1px solid #2b2b45;
+  transition:
+    transform 0.4s ease,
+    background-color 0.4s ease,
+    box-shadow 0.4s ease;
 }
+
 .channel-avatar {
   width: 55px;
   height: 55px;
@@ -184,31 +201,40 @@
   border: 2px solid #9147ff;
   flex-shrink: 0;
 }
+
 .channel-item a {
   color: white;
   text-decoration: none;
 }
+
 .channel-item a:hover {
   color: #9147ff;
+  border-radius: 24px;
+  transition: all 0.6s ease;
 }
+
 .channel-info {
   display: flex;
   flex-direction: column;
   min-width: 220px;
 }
+
 .channel-name {
   color: white;
   text-decoration: none;
   font-weight: bold;
   font-size: 16px;
 }
+
 .channel-name:hover {
   color: #9147ff;
 }
+
 .channel-info p {
   margin: 4px 0;
   color: #b0b0c0;
 }
+
 .channel-item:last-child {
   border-bottom: none;
 }
@@ -238,13 +264,12 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    #9147ff,
-    #b366ff
-  );
+  background: linear-gradient(90deg,
+      #9147ff,
+      #b366ff);
   transition: width 0.3s ease;
 }
+
 .progress-text {
   text-align: center;
   font-size: 12px;
@@ -263,12 +288,14 @@
   align-items: center;
   justify-content: center;
 }
+
 .badge-icon {
   width: 100%;
   height: 100%;
   object-fit: contain;
   display: block;
 }
+
 .remaining-text {
   font-size: 11px;
   color: #9d9db3;
@@ -281,32 +308,26 @@
 /* Theme Button */
 
 .theme-toggle {
-  width: 50px;
-  height: 50px;
-
-  margin: 20px auto 0;
-
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #9147ff;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  border: none;
-  border-radius: 50%;
-
-  background: #9147ff;
-  color: white;
-
-  cursor: pointer;
-
-  transition: all 0.3s ease;
+  gap: 8px;
 }
 
 
 .theme-toggle:hover {
-  transform: scale(1.08) rotate(15deg);
+  transform: translateY(-2px);
 
   box-shadow:
-    0 0 20px rgba(145, 71, 255, 0.4);
+    0 8px 20px rgba(145, 71, 255, 0.35);
 }
 
 /* Light Theme */
@@ -379,9 +400,232 @@
 .remaining-text,
 .progress-bar {
   transition:
-    background-color 0.8s ease,
-    color 0.8s ease,
-    border-color 0.8s ease,
-    box-shadow 0.8s ease;
+    background-color 0.6s ease,
+    color 0.6s ease,
+    border-color 0.6s ease,
+    box-shadow 0.6s ease;
 }
 
+/* Twitch Login Page */
+
+.twitch-login-btn {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #9147ff;
+  color: white;
+
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.twitch-login-btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(145, 71, 255, 0.35);
+}
+
+/* Login Page */
+
+.login-page {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #0e0e18;
+}
+
+.login-card {
+  width: 400px;
+
+  padding: 40px;
+
+  text-align: center;
+
+  border-radius: 24px;
+
+  background: #161625;
+
+  border: 1px solid #2b2b45;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    0 4px 12px rgba(145, 71, 255, 0.15);
+}
+
+.login-card h1 {
+  color: #9147ff;
+  margin-bottom: 20px;
+}
+
+.login-card p {
+  color: #b0b0c0;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.logout-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #dc3545;
+  color: white;
+
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.logout-btn:hover {
+  opacity: 0.9;
+}
+
+/* channels page css */
+
+.channels-grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 25px;
+}
+
+/* Card */
+.creator-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  padding: 24px;
+  background: #151526;
+  border: 1px solid #2d2d4d;
+  border-radius: 24px;
+  transition: all 0.6s ease;
+}
+
+.creator-card:hover {
+  transform: translateY(-4px);
+
+  border-color: #9147ff;
+
+  box-shadow:
+    0 10px 25px rgba(145, 71, 255, 0.15);
+}
+
+/* Avatar */
+.creator-avatar {
+  width: auto;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #9147ff;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.creator-avatar:hover .creator-avatar {
+  transform: scale(1.05);
+}
+
+/* Content */
+.creator-content {
+  flex: 1;
+}
+
+/* Name */
+.creator-name {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+}
+
+.verified {
+  color: #9147ff;
+  font-size: 16px;
+}
+
+/* Role */
+.creator-role {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(145, 71, 255, 0.15);
+  color: #b366ff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Description */
+.creator-description {
+  margin: 12px 0;
+  color: #b0b0c0;
+  line-height: 1.5;
+}
+
+/* Button */
+.creator-button {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 10px 16px;
+  border-radius: 20px;
+  background: #9147ff;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.creator-button:hover {
+  background: #772ce8;
+}
+
+/* Footer */
+.creator-footer {
+  margin-top: 10px;
+  color: #888;
+  font-size: 13px;
+}
+
+/* for Light Theme */
+
+.light-theme .creator-card {
+  background: white;
+  border: 1px solid #d8d8d8;
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.light-theme .creator-name {
+  color: black;
+}
+
+.light-theme .creator-description {
+  color: #666;
+}
+
+.light-theme .creator-footer {
+  color: #777;
+}
+
+.light-theme .creator-role {
+  background: rgba(145, 71, 255, 0.1);
+  color: #9147ff;
+}
+
+.light-theme .creator-button {
+  background: #9147ff;
+  color: white;
+}
