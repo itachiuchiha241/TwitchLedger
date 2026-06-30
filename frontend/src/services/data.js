@@ -2,11 +2,14 @@ import kokohaanAvatar from "../assets/kokohaan.png";
 import gabuAvatar from "../assets/gabunomichan.png";
 import mayaAvatar from "../assets/mayasan.png";
 import renrenAvatar from "../assets/lenlendayoo.png";
+import chisatoAvatar from "../assets/chisato.png";
+import AkarinVTAvatar from "../assets/AkarinVT.png";
+import TenZAvatar from "../assets/Tenz.png";
 
 export const channels = [
   {
     name: "心羽あん",
-    subs: 3809,
+    subs: 4095,
     bits: 50645,
     avatar: kokohaanAvatar,
     twitchUrl: "https://www.twitch.tv/kokohaan",
@@ -15,7 +18,7 @@ export const channels = [
   },
   {
     name: "がぶ飲みちゃん",
-    subs: 3705,
+    subs: 3720,
     bits: 25000,
     avatar: gabuAvatar,
     twitchUrl: "https://www.twitch.tv/gabuchan_sy",
@@ -33,7 +36,7 @@ export const channels = [
   },
   {
     name: "れんれんだよぉ",
-    subs: 200,
+    subs: 220,
     bits: 0,
     avatar: renrenAvatar,
     twitchUrl: "https://www.twitch.tv/lenlendayoo",
@@ -44,9 +47,28 @@ export const channels = [
     name: "ちさと_",
     subs: 281,
     bits: 0,
-    avatar: renrenAvatar,
+    avatar: chisatoAvatar,
     twitchUrl: "https://www.twitch.tv/chisato_ou",
     role: "VTuber",
     description: "ちさと です！不定期になりますが、VALORANTを中心に配信してます！",
   },
+  {
+    name: "AkarinVT",
+    subs: 12,
+    bits: 0,
+    avatar: AkarinVTAvatar,
+    twitchUrl: "https://www.twitch.tv/akarinvt",
+    role: "VTuber",
+    description: "hi! my name is 岩倉あかりん/ Iwakura Akarin. I'm a white cat virtual YouTuber こんにちは！岩倉あかりんと申します。白猫バーチャルYouTuberです welcome to the channel! I do a lot of just chatting to chat. I play mostly FPS games but l would love to try other game genres as well 私は視聴者に対して「雑談」をたくさんします。私は主に FPS ゲームをプレイしますが、他のゲームジャンルも試してみたいと思っています language main is english but I am currently learning japanese so I would be glad if you could teach me 主に英語を話しますが、現在日本語を勉強中なので、教えていただけると嬉しいです",
+  },
+  {
+    name: "TenZ",
+    subs: 25,
+    bits: 0,
+    avatar: TenZAvatar,
+    twitchUrl: "https://www.twitch.tv/tenz",
+    role: "FPS Creator",
+    description: "Hey I'm Tyson (TenZ), 25 year old from Vancouver Island, B.C. Now living in LA. Influencer for T1, Previously Professional VALORANT (Sentinels, Cloud9) and CS:GO (Cloud9). Half Vietnamese and Half French. Hope you enjoy your stay!",
+  },
+  
 ];
