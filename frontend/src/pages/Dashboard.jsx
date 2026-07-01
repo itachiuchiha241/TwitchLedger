@@ -7,6 +7,7 @@ import SupportedChannels from "../components/SupportedChannels";
 import { channels } from "../services/data";
 import LoginPage from "../components/LoginPage";
 import Channels from "../components/Channels";
+import Footer from "../components/Footer";
 
 function Dashboard() {
   const [searchTerm, setSearchTerm] =
@@ -111,10 +112,11 @@ function Dashboard() {
 
   return (
     <div
-      className={`dashboard-layout ${darkMode
+      className={`dashboard-layout ${
+        darkMode
           ? "dark-theme"
           : "light-theme"
-        }`}
+      }`}
     >
       <Sidebar
         darkMode={darkMode}
@@ -126,7 +128,7 @@ function Dashboard() {
 
       <main className="main-content">
         {currentPage ===
-          "channels" ? (
+        "channels" ? (
           <Channels />
         ) : (
           <>
@@ -138,9 +140,13 @@ function Dashboard() {
               placeholder="Search Twitch username..."
               value={searchTerm}
               onChange={(e) =>
-                setSearchTerm(e.target.value)
+                setSearchTerm(
+                  e.target.value
+                )
               }
-              onKeyDown={handleSearch}
+              onKeyDown={
+                handleSearch
+              }
             />
 
             {userData && (
@@ -199,21 +205,19 @@ function Dashboard() {
 
               <StatsCard
                 title="Channels Supported"
-                value={
-                  totalChannels
-                }
+                value={totalChannels}
               />
             </div>
 
             <div className="content-grid">
               <SupportedChannels
-                searchTerm={
-                  searchTerm
-                }
+                searchTerm={searchTerm}
               />
             </div>
           </>
         )}
+
+        <Footer />
       </main>
     </div>
   );
