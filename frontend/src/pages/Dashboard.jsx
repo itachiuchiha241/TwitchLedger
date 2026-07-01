@@ -111,11 +111,10 @@ function Dashboard() {
 
   return (
     <div
-      className={`dashboard-layout ${
-        darkMode
+      className={`dashboard-layout ${darkMode
           ? "dark-theme"
           : "light-theme"
-      }`}
+        }`}
     >
       <Sidebar
         darkMode={darkMode}
@@ -127,23 +126,21 @@ function Dashboard() {
 
       <main className="main-content">
         {currentPage ===
-        "channels" ? (
+          "channels" ? (
           <Channels />
         ) : (
           <>
             <input
+              id="twitch-search"
+              name="twitch-search"
               className="search-bar"
               type="text"
               placeholder="Search Twitch username..."
               value={searchTerm}
               onChange={(e) =>
-                setSearchTerm(
-                  e.target.value
-                )
+                setSearchTerm(e.target.value)
               }
-              onKeyDown={
-                handleSearch
-              }
+              onKeyDown={handleSearch}
             />
 
             {userData && (

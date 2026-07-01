@@ -629,3 +629,246 @@
   background: #9147ff;
   color: white;
 }
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+/* Laptop */
+@media (max-width: 1200px) {
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+
+  .dashboard-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+    border-right: none;
+    border-bottom: 1px solid #2b2b45;
+    padding: 20px;
+  }
+
+  .logo {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .sidebar-menu {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+
+  .sidebar-menu li {
+    flex: 1;
+    justify-content: center;
+    margin: 0;
+    min-width: 140px;
+  }
+
+  .theme-toggle,
+  .logout-btn {
+    margin-top: 12px;
+  }
+
+  .main-content {
+    padding: 24px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .main-content {
+    padding: 18px;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 34px;
+    margin-bottom: 25px;
+  }
+
+  .search-bar {
+    width: 100%;
+    max-width: 100%;
+    font-size: 15px;
+    padding: 14px 18px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .stats-card {
+    min-height: 150px;
+  }
+
+  .profile-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 18px;
+  }
+
+  .avatar {
+    width: 90px;
+    height: 90px;
+  }
+
+  .channel-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    padding: 20px 0;
+  }
+
+  .channel-avatar {
+    width: 70px;
+    height: 70px;
+    align-self: center;
+  }
+
+  .channel-info {
+    min-width: 100%;
+    text-align: center;
+  }
+
+  .channel-progress {
+    width: 100%;
+  }
+
+  .badge-row {
+    gap: 10px;
+  }
+
+  .remaining-text {
+    margin-top: 6px;
+  }
+
+  /* Creator Page */
+
+  .creator-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 28px 20px;
+  }
+
+  .creator-avatar {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 10px;
+  }
+
+  .creator-content {
+    width: 100%;
+  }
+
+  .creator-name {
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .creator-role {
+    margin-top: 10px;
+  }
+
+  .creator-description {
+    margin: 18px 0;
+  }
+
+  .creator-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    text-align: center;
+  }
+
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+
+  .sidebar {
+    padding: 16px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .sidebar-menu {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .sidebar-menu li {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .theme-toggle,
+  .logout-btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .main-content {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  .card,
+  .stats-card,
+  .supported-channels,
+  .creator-card {
+    padding: 18px;
+  }
+
+  .search-bar {
+    font-size: 14px;
+    padding: 13px 15px;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .creator-avatar {
+    width: 95px;
+    height: 95px;
+  }
+
+  .badge-container {
+    width: 28px;
+    height: 28px;
+  }
+
+  .progress-bar {
+    height: 8px;
+  }
+
+}
