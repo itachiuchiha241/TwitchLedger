@@ -9,7 +9,7 @@ import TenZAvatar from "../assets/Tenz.png";
 export const channels = [
   {
     name: "心羽あん",
-    subs: 4295,
+    subs: 4313,
     bits: 50645,
     avatar: kokohaanAvatar,
     twitchUrl: "https://www.twitch.tv/kokohaan",
@@ -18,7 +18,7 @@ export const channels = [
   },
   {
     name: "がぶ飲みちゃん",
-    subs: 3841,
+    subs: 4010,
     bits: 25000,
     avatar: gabuAvatar,
     twitchUrl: "https://www.twitch.tv/gabuchan_sy",
