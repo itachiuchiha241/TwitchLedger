@@ -18,7 +18,7 @@ export const channels = [
   },
   {
     name: "がぶ飲みちゃん",
-    subs: 4109,
+    subs: 4130,
     bits: 25000,
     avatar: gabuAvatar,
     twitchUrl: "https://www.twitch.tv/gabuchan_sy",
