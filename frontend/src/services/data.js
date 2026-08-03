@@ -27,7 +27,7 @@ export const channels = [
   },
   {
     name: "我妻まや",
-    subs: 1508,
+    subs: 1522,
     bits: 1100,
     avatar: mayaAvatar,
     twitchUrl: "https://www.twitch.tv/agatsuma_maya",
