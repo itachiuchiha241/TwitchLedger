@@ -54,7 +54,7 @@ export const channels = [
   },
   {
     name: "AkarinVT",
-    subs: 305,
+    subs: 350,
     bits: 0,
     avatar: AkarinVTAvatar,
     twitchUrl: "https://www.twitch.tv/akarinvt",
