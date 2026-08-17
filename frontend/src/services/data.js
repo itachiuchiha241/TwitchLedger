@@ -63,8 +63,8 @@ export const channels = [
     description: "hi! my name is 岩倉あかりん/ Iwakura Akarin. I'm a white cat virtual YouTuber こんにちは！岩倉あかりんと申します。白猫バーチャルYouTuberです welcome to the channel! I do a lot of just chatting to chat. I play mostly FPS games but l would love to try other game genres as well 私は視聴者に対して「雑談」をたくさんします。私は主に FPS ゲームをプレイしますが、他のゲームジャンルも試してみたいと思っています language main is english but I am currently learning japanese so I would be glad if you could teach me 主に英語を話しますが、現在日本語を勉強中なので、教えていただけると嬉しいです",
   },
   {
-    name: "はるこちゃん",
-    subs: 71,
+    name: "はるこさん",
+    subs: 103,
     bits: 0,
     avatar: harukochan,
     twitchUrl: "https://www.twitch.tv/hal_ol",
