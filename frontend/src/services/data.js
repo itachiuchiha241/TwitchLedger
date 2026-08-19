@@ -64,7 +64,7 @@ export const channels = [
   },
   {
     name: "はるこさん",
-    subs: 103,
+    subs: 123,
     bits: 0,
     avatar: harukochan,
     twitchUrl: "https://www.twitch.tv/hal_ol",
