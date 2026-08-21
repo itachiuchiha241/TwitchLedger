@@ -10,7 +10,7 @@ import harukochan from "../assets/harukochan.png";
 export const channels = [
   {
     name: "心羽あん",
-    subs: 4618,
+    subs: 4703,
     bits: 50645,
     avatar: kokohaanAvatar,
     twitchUrl: "https://www.twitch.tv/kokohaan",
