@@ -46,7 +46,7 @@ export const channels = [
   },
   {
     name: "ちさと_",
-    subs: 281,
+    subs: 301,
     bits: 0,
     avatar: chisatoAvatar,
     twitchUrl: "https://www.twitch.tv/chisato_ou",
