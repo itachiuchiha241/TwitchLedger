@@ -6,6 +6,7 @@ import chisatoAvatar from "../assets/chisato.png";
 import AkarinVTAvatar from "../assets/AkarinVT.png";
 import TenZAvatar from "../assets/Tenz.png";
 import harukochan from "../assets/harukochan.png";
+import 餅乃さや from "../assets/餅乃さや.png"; 
 
 export const channels = [
   {
@@ -71,6 +72,15 @@ export const channels = [
     role: "VTuber",
     description: "はるこです。アヒルとコーヒーがすきです。",
   },
+    {
+    name: "餅乃さや",
+    subs: 5,
+    bits: 0,
+    avatar: 餅乃さや,
+    twitchUrl: "https://www.twitch.tv/mochino_saya",
+    role: "VTuber",
+    description: "ゲームとジャンクフード大好き管理不足栄養士🍡 21時頃〜牧場物語、原神、崩壊スターレイル、ゼンレスゾーンゼロなど配信してます🐰",
+  },
   {
     name: "TenZ",
     subs: 25,
@@ -80,5 +90,6 @@ export const channels = [
     role: "FPS Creator",
     description: "Hey I'm Tyson (TenZ), 25 year old from Vancouver Island, B.C. Now living in LA. Influencer for T1, Previously Professional VALORANT (Sentinels, Cloud9) and CS:GO (Cloud9). Half Vietnamese and Half French. Hope you enjoy your stay!",
   },
+  
   
 ];
