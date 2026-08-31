@@ -6,7 +6,8 @@ import chisatoAvatar from "../assets/chisato.png";
 import AkarinVTAvatar from "../assets/AkarinVT.png";
 import TenZAvatar from "../assets/Tenz.png";
 import harukochan from "../assets/harukochan.png";
-import 餅乃さや from "../assets/餅乃さや.png"; 
+import 餅乃さや from "../assets/餅乃さや.png";
+import 深白まお from "../assets/深白まお.png";
 
 export const channels = [
   {
@@ -80,6 +81,15 @@ export const channels = [
     twitchUrl: "https://www.twitch.tv/mochino_saya",
     role: "VTuber",
     description: "ゲームとジャンクフード大好き管理不足栄養士🍡 21時頃〜牧場物語、原神、崩壊スターレイル、ゼンレスゾーンゼロなど配信してます🐰",
+  },
+  {
+    name:"深白まお",
+    subs: "10",
+    bits: "0",
+    avatar: 深白まお,
+    twitchUrl: "https://www.twitch.tv/mishiromao",
+    role: "VTuber",
+    description: "深白まおと申します！ I'm Mao Mishiro!（ debut 23.04.01 / Twitch Partner 23.11.08 ）🎮 game | 🗣️ just chatting | 🎨 draw | 🎶 sing | 🤍 model : ramune 様 | ✉ contact : info@seedsglobal.jp", 
   },
   {
     name: "TenZ",
