@@ -38,7 +38,7 @@ export const channels = [
   },
   {
     name: "れんれんだよぉ",
-    subs: 347,
+    subs: 352,
     bits: 0,
     avatar: renrenAvatar,
     twitchUrl: "https://www.twitch.tv/lenlendayoo",
