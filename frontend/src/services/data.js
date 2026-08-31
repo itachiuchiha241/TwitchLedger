@@ -84,8 +84,8 @@ export const channels = [
   },
   {
     name:"深白まお",
-    subs: "10",
-    bits: "0",
+    subs: 20,
+    bits: 0,
     avatar: 深白まお,
     twitchUrl: "https://www.twitch.tv/mishiromao",
     role: "VTuber",
