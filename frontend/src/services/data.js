@@ -9,7 +9,7 @@ import harukochan from "../assets/harukochan.png";
 import 餅乃さや from "../assets/餅乃さや.png";
 import 深白まお from "../assets/深白まお.png";
 import 狐白しゅろ from "../assets/狐白しゅろ.png";
-import sawa from "../assets/sawa.png";
+import sawa from "../assets/sawasan.png";
 
 export const channels = [
   {
