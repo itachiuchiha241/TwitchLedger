@@ -10,6 +10,7 @@ import 餅乃さや from "../assets/餅乃さや.png";
 import 深白まお from "../assets/深白まお.png";
 import 狐白しゅろ from "../assets/狐白しゅろ.png";
 import sawa from "../assets/sawasan.png";
+import みつのはの from "../assets/mitunohano.png";
 
 export const channels = [
   {
@@ -83,6 +84,15 @@ export const channels = [
     twitchUrl: "https://www.twitch.tv/sawa_430",
     role: "VTuber",
     description: "❆HoYoCREATORS&Endfield IndustriesCreators❆歯医者さんでお仕事しながら、原神メインにHoYoverseのゲームの配信をしています。最近エンドフィールド始めました(⑉･ ･⑉)",
+  },
+  {
+    name:"みつのはの",
+    subs: 5,
+    bits: 0,
+    avatar: みつのはの,
+    twitchUrl: "https://www.twitch.tv/8nohallo",
+    role: "VTuber",
+    description: "ゲームとカフェラテが好きです☕🌙",
   },
   {
     name: "餅乃さや",
