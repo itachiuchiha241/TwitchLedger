@@ -8,6 +8,7 @@ import TenZAvatar from "../assets/Tenz.png";
 import harukochan from "../assets/harukochan.png";
 import 餅乃さや from "../assets/餅乃さや.png";
 import 深白まお from "../assets/深白まお.png";
+import 狐白しゅろ from "../assets/狐白しゅろ.png";
 
 export const channels = [
   {
@@ -90,6 +91,15 @@ export const channels = [
     twitchUrl: "https://www.twitch.tv/mishiromao",
     role: "VTuber",
     description: "深白まおと申します！ I'm Mao Mishiro!（ debut 23.04.01 / Twitch Partner 23.11.08 ）🎮 game | 🗣️ just chatting | 🎨 draw | 🎶 sing | 🤍 model : ramune 様 | ✉ contact : info@seedsglobal.jp", 
+  },
+  {
+    name:"狐白しゅろ",
+    subs: 10,
+    bits: 0,
+    avatar: 狐白しゅろ,
+    twitchUrl: "https://www.twitch.tv/kohakushuro",
+    role: "VTuber",
+    description: "こんしゅろ～🦊🎀ゲーム大好きなきつねの女の子です🤍ゆるくぽへぽへ一緒に過ごそう～!!",
   },
   {
     name: "TenZ",
