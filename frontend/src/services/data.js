@@ -94,7 +94,7 @@ export const channels = [
   },
   {
     name:"狐白しゅろ",
-    subs: 10,
+    subs: 24,
     bits: 0,
     avatar: 狐白しゅろ,
     twitchUrl: "https://www.twitch.tv/kohakushuro",
