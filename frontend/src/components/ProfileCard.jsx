@@ -26,7 +26,7 @@ function ProfileCard() {
           <h2>prem241t</h2>
         </a>
 
-        <p>Twitch Supporter</p>
+        <p>Twitch channel Supporter</p>
       </div>
     </div>
   );
