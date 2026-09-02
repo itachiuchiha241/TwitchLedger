@@ -10,7 +10,7 @@ import 餅乃さや from "../assets/餅乃さや.png";
 import 深白まお from "../assets/深白まお.png";
 import 狐白しゅろ from "../assets/狐白しゅろ.png";
 import sawa from "../assets/sawasan.png";
-import みつのはの from "../assets/mitunohano.png";
+import みつのはの from "../assets/みつのはの.png";
 
 export const channels = [
   {
@@ -114,7 +114,7 @@ export const channels = [
   },
   {
     name:"狐白しゅろ",
-    subs: 24,
+    subs: 29,
     bits: 0,
     avatar: 狐白しゅろ,
     twitchUrl: "https://www.twitch.tv/kohakushuro",
@@ -131,5 +131,5 @@ export const channels = [
     description: "Hey I'm Tyson (TenZ), 25 year old from Vancouver Island, B.C. Now living in LA. Influencer for T1, Previously Professional VALORANT (Sentinels, Cloud9) and CS:GO (Cloud9). Half Vietnamese and Half French. Hope you enjoy your stay!",
   },
   
-  
+
 ];
