@@ -1,10 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const { connectDatabase } = require("./config/database");
 require("dotenv").config();
 
 const twitchRoutes = require("./routes/twitchRoutes");
 
 const app = express();
+
+connectDatabase();
 
 app.use(cors());
 
