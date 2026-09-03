@@ -4,7 +4,7 @@ const Channel = require("../models/Channel");
 const channels = [
   {
     name: "心羽あん",
-    subs: 4817,
+    subs: 4837,
     bits: 50645,
     avatar: "/assets/kokohaan.png",
     twitchUrl: "https://www.twitch.tv/kokohaan",
