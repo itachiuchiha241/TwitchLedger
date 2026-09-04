@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { connectDatabase } = require("./config/database");
+const channelRoutes = require("./routes/channelRoutes");
 require("dotenv").config();
 
 const twitchRoutes = require("./routes/twitchRoutes");
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", twitchRoutes);
+app.use("/api", channelRoutes);
 
 app.listen(
   process.env.PORT || 5000,
