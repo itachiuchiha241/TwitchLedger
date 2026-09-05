@@ -15,7 +15,8 @@ import みつのはの from "../assets/みつのはの.png";
 export const channels = [
   {
     name: "心羽あん",
-    subs: 4837,
+    verified: true,
+    subs: 4849,
     bits: 50645,
     avatar: kokohaanAvatar,
     twitchUrl: "https://www.twitch.tv/kokohaan",
@@ -24,6 +25,7 @@ export const channels = [
   },
   {
     name: "がぶ飲みちゃん",
+    verified: false,
     subs: 4744,
     bits: 25000,
     avatar: gabuAvatar,

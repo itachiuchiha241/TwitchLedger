@@ -7,6 +7,10 @@ const channelSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
 
     subs: {
       type: Number,
@@ -47,5 +51,7 @@ const Channel = mongoose.model(
   "Channel",
   channelSchema
 );
+
+
 
 module.exports = Channel;
