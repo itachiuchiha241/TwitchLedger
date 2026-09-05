@@ -16,7 +16,7 @@ export const channels = [
   {
     name: "心羽あん",
     verified: true,
-    subs: 4869,
+    subs: 4877,
     bits: 50645,
     avatar: kokohaanAvatar,
     twitchUrl: "https://www.twitch.tv/kokohaan",
