@@ -35,6 +35,7 @@ export const channels = [
   },
   {
     name: "我妻まや",
+    verified: false,
     subs: 1643,
     bits: 1100,
     avatar: mayaAvatar,
@@ -44,6 +45,7 @@ export const channels = [
   },
   {
     name: "れんれんだよぉ",
+    verified: false,
     subs: 352,
     bits: 0,
     avatar: renrenAvatar,
@@ -53,6 +55,7 @@ export const channels = [
   },
   {
     name: "ちさと_",
+    verified: false,
     subs: 301,
     bits: 0,
     avatar: chisatoAvatar,
@@ -62,6 +65,7 @@ export const channels = [
   },
   {
     name: "AkarinVT",
+    verified: false,
     subs: 550,
     bits: 0,
     avatar: AkarinVTAvatar,
@@ -71,6 +75,7 @@ export const channels = [
   },
   {
     name: "はるこさん",
+    verified: true,
     subs: 123,
     bits: 0,
     avatar: harukochan,
@@ -80,6 +85,7 @@ export const channels = [
   },
   {
     name:"さわ____",
+    verified: true,
     subs: 20,
     bits: 0,
     avatar: sawa,
@@ -89,6 +95,7 @@ export const channels = [
   },
   {
     name:"みつのはの",
+    verified: true,
     subs: 5,
     bits: 0,
     avatar: みつのはの,
@@ -98,6 +105,7 @@ export const channels = [
   },
   {
     name: "餅乃さや",
+    verified: false,
     subs: 5,
     bits: 0,
     avatar: 餅乃さや,
@@ -107,6 +115,7 @@ export const channels = [
   },
   {
     name:"深白まお",
+    verified: true,
     subs: 50,
     bits: 0,
     avatar: 深白まお,
@@ -116,6 +125,7 @@ export const channels = [
   },
   {
     name:"狐白しゅろ",
+    verified: false,
     subs: 29,
     bits: 0,
     avatar: 狐白しゅろ,
@@ -125,6 +135,7 @@ export const channels = [
   },
   {
     name: "TenZ",
+    verified: true,
     subs: 25,
     bits: 0,
     avatar: TenZAvatar,
