@@ -107,7 +107,7 @@ export const channels = [
   },
   {
     name:"深白まお",
-    subs: 20,
+    subs: 30,
     bits: 0,
     avatar: 深白まお,
     twitchUrl: "https://www.twitch.tv/mishiromao",
