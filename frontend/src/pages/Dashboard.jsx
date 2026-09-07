@@ -22,9 +22,7 @@ function Dashboard() {
   const [darkMode, setDarkMode] =
     useState(() => {
       const savedTheme =
-        localStorage.getItem(
-          "theme"
-        );
+        localStorage.getItem("theme");
 
       return savedTheme === "light"
         ? false
@@ -35,9 +33,7 @@ function Dashboard() {
     const hash =
       window.location.hash;
 
-    if (
-      hash.includes("access_token")
-    ) {
+    if (hash.includes("access_token")) {
       const token =
         new URLSearchParams(
           hash.substring(1)
@@ -95,6 +91,10 @@ function Dashboard() {
     return <LoginPage />;
   }
 
+  // =========================
+  // DASHBOARD STATISTICS
+  // =========================
+
   const totalSubs = channels.reduce(
     (total, channel) =>
       total + channel.subs,
@@ -109,6 +109,11 @@ function Dashboard() {
 
   const totalChannels =
     channels.length;
+
+  const totalVerified =
+    channels.filter(
+      (channel) => channel.verified
+    ).length;
 
   return (
     <div
@@ -127,11 +132,22 @@ function Dashboard() {
       />
 
       <main className="main-content">
-        {currentPage ===
-        "channels" ? (
+
+        {/* =========================
+            CHANNELS PAGE
+        ========================= */}
+
+        {currentPage === "channels" ? (
           <Channels />
         ) : (
+
+          /* =========================
+             DASHBOARD PAGE
+          ========================= */
+
           <>
+            {/* SEARCH BAR */}
+
             <input
               id="twitch-search"
               name="twitch-search"
@@ -148,6 +164,8 @@ function Dashboard() {
                 handleSearch
               }
             />
+
+            {/* TWITCH SEARCH RESULT */}
 
             {userData && (
               <div className="card profile-card">
@@ -186,13 +204,22 @@ function Dashboard() {
               </div>
             )}
 
+            {/* DASHBOARD TITLE */}
+
             <h1>
               TwitchLedger Dashboard
             </h1>
 
+            {/* PROFILE */}
+
             <ProfileCard />
 
+            {/* =========================
+                STATISTICS
+            ========================= */}
+
             <div className="stats-grid">
+
               <StatsCard
                 title="Gifted Subs"
                 value={totalSubs.toLocaleString()}
@@ -207,7 +234,17 @@ function Dashboard() {
                 title="Channels Supported"
                 value={totalChannels}
               />
+
+              <StatsCard
+                title="Verified Creators"
+                value={totalVerified}
+              />
+
             </div>
+
+            {/* =========================
+                SUPPORTED CHANNELS
+            ========================= */}
 
             <div className="content-grid">
               <SupportedChannels
@@ -217,7 +254,10 @@ function Dashboard() {
           </>
         )}
 
+        {/* FOOTER */}
+
         <Footer />
+
       </main>
     </div>
   );
