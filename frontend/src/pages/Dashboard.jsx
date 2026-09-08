@@ -7,6 +7,7 @@ import SupportedChannels from "../components/SupportedChannels";
 import { channels } from "../services/data";
 import LoginPage from "../components/LoginPage";
 import Channels from "../components/Channels";
+import SupportGalaxy from "../components/SupportGalaxy";
 import Footer from "../components/Footer";
 
 function Dashboard() {
@@ -117,11 +118,10 @@ function Dashboard() {
 
   return (
     <div
-      className={`dashboard-layout ${
-        darkMode
+      className={`dashboard-layout ${darkMode
           ? "dark-theme"
           : "light-theme"
-      }`}
+        }`}
     >
       <Sidebar
         darkMode={darkMode}
@@ -134,15 +134,25 @@ function Dashboard() {
       <main className="main-content">
 
         {/* =========================
-            CHANNELS PAGE
+            SUPPORT GALAXY PAGE
         ========================= */}
 
-        {currentPage === "channels" ? (
+        {currentPage === "galaxy" ? (
+          <div className="galaxy-fullscreen">
+            <SupportGalaxy />
+          </div>
+        ) : currentPage === "channels" ? (
+
+          /* =========================
+              CHANNELS PAGE
+          ========================= */
+
           <Channels />
+
         ) : (
 
           /* =========================
-             DASHBOARD PAGE
+              DASHBOARD PAGE
           ========================= */
 
           <>

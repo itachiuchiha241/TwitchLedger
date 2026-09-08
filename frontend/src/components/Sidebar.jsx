@@ -1,20 +1,32 @@
 import {
   LayoutDashboard,
   Tv,
+  Orbit,
   Moon,
   Sun,
 } from "lucide-react";
 
 import TwitchLogin from "./TwitchLogin";
 
-function Sidebar({ darkMode, setDarkMode, setCurrentPage }) {
-
+function Sidebar({
+  darkMode,
+  setDarkMode,
+  setCurrentPage,
+}) {
   return (
     <aside className="sidebar">
-      <h2 className="logo">TwitchLedger</h2>
+
+      {/* LOGO */}
+      <h2 className="logo">
+        TwitchLedger
+      </h2>
+
+      {/* THEME TOGGLE */}
       <button
         className="theme-toggle"
-        onClick={() => setDarkMode(!darkMode)}
+        onClick={() =>
+          setDarkMode(!darkMode)
+        }
       >
         {darkMode ? (
           <>
@@ -28,8 +40,11 @@ function Sidebar({ darkMode, setDarkMode, setCurrentPage }) {
           </>
         )}
       </button>
+
+      {/* SIDEBAR MENU */}
       <div className="sidebar-menu">
 
+        {/* DASHBOARD */}
         <li
           onClick={() =>
             setCurrentPage("dashboard")
@@ -39,6 +54,17 @@ function Sidebar({ darkMode, setDarkMode, setCurrentPage }) {
           <span>Dashboard</span>
         </li>
 
+        {/* SUPPORT GALAXY */}
+        <li
+          onClick={() =>
+            setCurrentPage("galaxy")
+          }
+        >
+          <Orbit size={18} />
+          <span>Support Galaxy</span>
+        </li>
+
+        {/* CHANNELS */}
         <li
           onClick={() =>
             setCurrentPage("channels")
@@ -50,29 +76,25 @@ function Sidebar({ darkMode, setDarkMode, setCurrentPage }) {
 
       </div>
 
+      {/* LOGOUT / LOGIN */}
+      {localStorage.getItem(
+        "twitchLoggedIn"
+      ) === "true" ? (
+        <button
+          className="logout-btn"
+          onClick={() => {
+            localStorage.removeItem(
+              "twitchLoggedIn"
+            );
 
-
-      {
-        localStorage.getItem(
-          "twitchLoggedIn"
-        ) === "true" ? (
-          <button
-            className="logout-btn"
-            onClick={() => {
-              localStorage.removeItem(
-                "twitchLoggedIn"
-              );
-
-              window.location.reload();
-            }}
-          >
-            Logout
-          </button>
-        ) : (
-          <TwitchLogin />
-        )
-      }
-
+            window.location.reload();
+          }}
+        >
+          Logout
+        </button>
+      ) : (
+        <TwitchLogin />
+      )}
 
     </aside>
   );

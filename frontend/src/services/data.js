@@ -144,5 +144,4 @@ export const channels = [
     description: "Hey I'm Tyson (TenZ), 25 year old from Vancouver Island, B.C. Now living in LA. Influencer for T1, Previously Professional VALORANT (Sentinels, Cloud9) and CS:GO (Cloud9). Half Vietnamese and Half French. Hope you enjoy your stay!",
   },
   
-
 ];
