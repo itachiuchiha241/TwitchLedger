@@ -7,8 +7,10 @@ function Channels() {
 
       <div className="channels-grid">
         {channels.map((channel) => (
-          <div key={channel.name} className="creator-card">
-
+          <div
+            key={channel.name}
+            className="creator-card"
+          >
             <img
               src={channel.avatar}
               alt={channel.name}
@@ -18,6 +20,7 @@ function Channels() {
             {/* RIGHT SIDE CONTENT WRAPPER */}
             <div className="creator-content">
 
+              {/* CREATOR NAME + VERIFIED BADGE */}
               <h2 className="creator-name">
                 {channel.name}
 
@@ -40,16 +43,19 @@ function Channels() {
                 )}
               </h2>
 
+              {/* CREATOR ROLE */}
               <span className="creator-role">
                 {channel.role}
               </span>
 
+              {/* CREATOR DESCRIPTION */}
               <p className="creator-description">
                 {channel.description.length > 140
                   ? channel.description.slice(0, 140) + "..."
                   : channel.description}
               </p>
 
+              {/* TWITCH BUTTON */}
               <a
                 href={channel.twitchUrl}
                 target="_blank"
@@ -59,6 +65,7 @@ function Channels() {
                 Open Twitch Channel
               </a>
 
+              {/* FOOTER */}
               <div className="creator-footer">
                 💜 Supported Creator
               </div>
