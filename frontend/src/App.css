@@ -848,12 +848,10 @@ body {
   border-radius: inherit;
 
   background:
-    linear-gradient(
-      90deg,
+    linear-gradient(90deg,
       #6d28d9 0%,
       #9147ff 55%,
-      #b98cff 100%
-    );
+      #b98cff 100%);
 
   box-shadow:
     0 0 14px rgba(145, 71, 255, 0.5);
@@ -1066,8 +1064,29 @@ body {
    GALAXY FOUNDATION
    ========================================================= */
 
-.galaxy-fullscreen {
+/* =========================================================
+   SUPPORT GALAXY - 3D FOUNDATION
+   ========================================================= */
+
+.support-galaxy-page {
+  position: relative;
   width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #05030a;
+}
+
+.support-galaxy-page canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.galaxy-fullscreen {
+  width: 100vw;
+  height: calc(100vh - 108px);
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
 }
 
 
@@ -1162,6 +1181,311 @@ body {
 
   box-shadow:
     0 14px 35px rgba(145, 71, 255, 0.35);
+}
+
+
+/* =========================================================
+   GALAXY CREATOR GLASS CARD
+   ========================================================= */
+
+.galaxy-creator-card {
+  position: relative;
+  width: 250px;
+  min-height: 135px;
+  padding: 15px;
+  display: flex;
+  gap: 14px;
+  border: 1px solid rgba(169, 112, 255, 0.28);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg,
+      rgba(20, 12, 35, 0.88),
+      rgba(10, 7, 20, 0.72));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.55),
+    0 0 35px rgba(145, 71, 255, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: white;
+  font-family: inherit;
+  user-select: none;
+  pointer-events: auto;
+}
+
+
+/* Subtle glass highlight */
+
+.galaxy-creator-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 1px;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(120deg,
+      rgba(255, 255, 255, 0.08),
+      transparent 35%);
+
+  pointer-events: none;
+}
+
+
+/* Purple atmospheric glow */
+
+.galaxy-card-glow {
+  position: absolute;
+
+  width: 110px;
+  height: 110px;
+
+  top: -45px;
+  left: -35px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(circle,
+      rgba(145, 71, 255, 0.25),
+      transparent 70%);
+
+  filter: blur(15px);
+
+  pointer-events: none;
+}
+
+
+/* Close button */
+
+.galaxy-card-close {
+  position: absolute;
+
+  top: 8px;
+  right: 9px;
+
+  width: 25px;
+  height: 25px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  color:
+    rgba(255, 255, 255, 0.7);
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.galaxy-card-close:hover {
+  background:
+    rgba(145, 71, 255, 0.25);
+
+  color: white;
+}
+
+
+/* Avatar */
+
+.galaxy-card-avatar {
+  position: relative;
+
+  flex-shrink: 0;
+
+  width: 58px;
+  height: 58px;
+
+  margin-top: 4px;
+
+  border-radius: 50%;
+
+  padding: 3px;
+
+  background:
+    linear-gradient(135deg,
+      #9147ff,
+      #b98cff);
+
+  box-shadow:
+    0 0 20px rgba(145, 71, 255, 0.35);
+}
+
+.galaxy-card-avatar img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+}
+
+
+/* Information */
+
+.galaxy-card-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+
+.galaxy-card-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding-right: 22px;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+.galaxy-verified {
+  width: 15px;
+  height: 15px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #9147ff;
+
+  color: white;
+
+  font-size: 9px;
+}
+
+
+.galaxy-card-role {
+  font-size: 11px;
+
+  color:
+    rgba(185, 140, 255, 0.9);
+}
+
+
+.galaxy-card-description {
+  max-width: 185px;
+
+  margin-top: 3px;
+
+  color:
+    rgba(255, 255, 255, 0.58);
+
+  font-size: 10px;
+  line-height: 1.45;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+
+/* Stats */
+
+.galaxy-card-stats {
+  display: flex;
+  gap: 18px;
+
+  margin-top: 5px;
+}
+
+
+.galaxy-card-stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+
+.galaxy-card-stats strong {
+  font-size: 12px;
+
+  color: white;
+}
+
+
+.galaxy-card-stats span {
+  font-size: 9px;
+
+  color:
+    rgba(255, 255, 255, 0.45);
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.05em;
+}
+
+
+/* Twitch button */
+
+.galaxy-twitch-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+
+  margin-top: 4px;
+
+  padding: 6px 11px;
+
+  border-radius: 8px;
+
+  border: 1px solid rgba(145, 71, 255, 0.35);
+
+  background:
+    rgba(145, 71, 255, 0.14);
+
+  color:
+    rgba(255, 255, 255, 0.85);
+
+  font-size: 10px;
+
+  text-decoration: none;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.galaxy-twitch-button:hover {
+  background:
+    rgba(145, 71, 255, 0.28);
+
+  border-color:
+    rgba(185, 140, 255, 0.55);
+
+  transform: translateY(-1px);
 }
 
 
