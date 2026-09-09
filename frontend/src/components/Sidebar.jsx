@@ -4,99 +4,120 @@ import {
   Orbit,
   Moon,
   Sun,
+  LogOut,
 } from "lucide-react";
-
-import TwitchLogin from "./TwitchLogin";
 
 function Sidebar({
   darkMode,
   setDarkMode,
   setCurrentPage,
+  currentPage,
 }) {
   return (
-    <aside className="sidebar">
+    <header className="top-navbar">
 
-      {/* LOGO */}
-      <h2 className="logo">
-        TwitchLedger
-      </h2>
+      {/* BRAND */}
+      <div className="navbar-brand">
+        <div className="brand-mark">
+          TL
+        </div>
 
-      {/* THEME TOGGLE */}
-      <button
-        className="theme-toggle"
-        onClick={() =>
-          setDarkMode(!darkMode)
-        }
-      >
-        {darkMode ? (
-          <>
-            <Sun size={18} />
-            <span>Light Mode</span>
-          </>
-        ) : (
-          <>
-            <Moon size={18} />
-            <span>Dark Mode</span>
-          </>
-        )}
-      </button>
+        <span className="brand-name">
+          TwitchLedger
+        </span>
+      </div>
 
-      {/* SIDEBAR MENU */}
-      <div className="sidebar-menu">
+      {/* NAVIGATION */}
+      <nav className="navbar-navigation">
 
-        {/* DASHBOARD */}
-        <li
+        <button
+          className={`nav-item ${
+            currentPage === "dashboard"
+              ? "active"
+              : ""
+          }`}
           onClick={() =>
             setCurrentPage("dashboard")
           }
         >
           <LayoutDashboard size={18} />
           <span>Dashboard</span>
-        </li>
+        </button>
 
-        {/* SUPPORT GALAXY */}
-        <li
+        <button
+          className={`nav-item ${
+            currentPage === "galaxy"
+              ? "active"
+              : ""
+          }`}
           onClick={() =>
             setCurrentPage("galaxy")
           }
         >
           <Orbit size={18} />
           <span>Support Galaxy</span>
-        </li>
+        </button>
 
-        {/* CHANNELS */}
-        <li
+        <button
+          className={`nav-item ${
+            currentPage === "channels"
+              ? "active"
+              : ""
+          }`}
           onClick={() =>
             setCurrentPage("channels")
           }
         >
           <Tv size={18} />
           <span>Channels</span>
-        </li>
+        </button>
 
-      </div>
+      </nav>
 
-      {/* LOGOUT / LOGIN */}
-      {localStorage.getItem(
-        "twitchLoggedIn"
-      ) === "true" ? (
+      {/* RIGHT SIDE */}
+      <div className="navbar-actions">
+
+        {/* THEME */}
         <button
-          className="logout-btn"
+          className="navbar-icon-button"
+          onClick={() =>
+            setDarkMode(!darkMode)
+          }
+          title={
+            darkMode
+              ? "Switch to light mode"
+              : "Switch to dark mode"
+          }
+        >
+          {darkMode ? (
+            <Sun size={19} />
+          ) : (
+            <Moon size={19} />
+          )}
+        </button>
+
+        {/* LOGOUT */}
+        <button
+          className="navbar-logout"
           onClick={() => {
             localStorage.removeItem(
               "twitchLoggedIn"
             );
 
+            localStorage.removeItem(
+              "twitchToken"
+            );
+
             window.location.reload();
           }}
         >
-          Logout
+          <LogOut size={17} />
+          <span>Logout</span>
         </button>
-      ) : (
-        <TwitchLogin />
-      )}
 
-    </aside>
+      </div>
+
+    </header>
   );
 }
 
