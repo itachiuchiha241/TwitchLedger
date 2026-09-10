@@ -1,14 +1,16 @@
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { Stars } from "@react-three/drei";
+import { Billboard, OrbitControls, Stars } from "@react-three/drei";
 import * as THREE from "three";
-import { useRef, useState } from "react";
-import gsap from "gsap";
+import { useEffect, useMemo, useRef } from "react";
 
 import profilePic from "../assets/prem.png";
 import { channels } from "../services/data";
 
 const ORBIT_DISTANCES = [2.0, 2.65, 3.35];
 const GALAXY_Y_OFFSET = 0.35;
+const ORBIT_TILT = Math.atan2(0.65, 0.58);
+const HOME_CAMERA_POSITION = new THREE.Vector3(0, 0, 8);
+const HOME_CAMERA_TARGET = new THREE.Vector3(0, GALAXY_Y_OFFSET, 0);
 
 function getCreatorOrbit(index) {
   const total = channels.length;
@@ -36,6 +38,12 @@ function getOrbitPosition(angle, radius, verticalOffset = 0) {
 
 function GalaxyCore() {
   const profileTexture = useLoader(THREE.TextureLoader, profilePic);
+  const coreTexture = useMemo(() => {
+    const texture = profileTexture.clone();
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.needsUpdate = true;
+    return texture;
+  }, [profileTexture]);
   const coreRef = useRef(null);
   const glowRef = useRef(null);
 
@@ -54,6 +62,7 @@ function GalaxyCore() {
 
   return (
     <group>
+      <Billboard follow>
       <mesh ref={glowRef} position={[0, 0, -0.15]}>
         <circleGeometry args={[0.86, 64]} />
         <meshBasicMaterial
@@ -79,13 +88,13 @@ function GalaxyCore() {
       <mesh ref={coreRef}>
         <circleGeometry args={[0.48, 64]} />
         <meshBasicMaterial
-          map={profileTexture}
+          map={coreTexture}
           transparent
           toneMapped={false}
         />
       </mesh>
 
-      <mesh position={[0, 0, -0.2]}>
+      <mesh position={[0, 0, 0.03]}>
         <torusGeometry args={[0.62, 0.014, 16, 96]} />
         <meshBasicMaterial
           color="#9147ff"
@@ -95,7 +104,7 @@ function GalaxyCore() {
         />
       </mesh>
 
-      <mesh position={[0, 0, -0.25]}>
+      <mesh position={[0, 0, 0.02]}>
         <torusGeometry args={[0.74, 0.009, 16, 96]} />
         <meshBasicMaterial
           color="#a970ff"
@@ -104,6 +113,7 @@ function GalaxyCore() {
           blending={THREE.AdditiveBlending}
         />
       </mesh>
+      </Billboard>
 
       <pointLight
         position={[0, 0, 1]}
@@ -132,52 +142,23 @@ function GalaxyOrbitRings({ visible }) {
 
   return (
     <group>
-      <mesh
-        ref={ringOne}
-        position={[0, 0, -0.4]}
-        scale={[1, 0.58, 1]}
-      >
-        <torusGeometry args={[2.0, 0.007, 16, 128]} />
-        <meshBasicMaterial
-          color="#9147ff"
-          transparent
-          opacity={0.17}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
-
-      <mesh
-        ref={ringTwo}
-        position={[0, 0, -0.5]}
-        rotation={[0.12, 0.25, 0]}
-        scale={[1, 0.58, 1]}
-      >
-        <torusGeometry args={[2.65, 0.005, 16, 128]} />
-        <meshBasicMaterial
-          color="#a970ff"
-          transparent
-          opacity={0.11}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
-
-      <mesh
-        ref={ringThree}
-        position={[0, 0, -0.6]}
-        rotation={[-0.15, 0.2, 0]}
-        scale={[1, 0.58, 1]}
-      >
-        <torusGeometry args={[3.35, 0.004, 16, 128]} />
-        <meshBasicMaterial
-          color="#772ce8"
-          transparent
-          opacity={0.07}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
+      {[2.0, 2.65, 3.35].map((radius, index) => (
+        <group key={radius} rotation={[ORBIT_TILT, 0, 0]}>
+          <mesh
+            ref={[ringOne, ringTwo, ringThree][index]}
+            position={[0, 0, -0.04 * (index + 1)]}
+          >
+            <torusGeometry args={[radius, 0.007 - index * 0.001, 12, 128]} />
+            <meshBasicMaterial
+              color={["#9147ff", "#a970ff", "#772ce8"][index]}
+              transparent
+              opacity={[0.17, 0.11, 0.07][index]}
+              blending={THREE.AdditiveBlending}
+              depthWrite={false}
+            />
+          </mesh>
+        </group>
+      ))}
     </group>
   );
 }
@@ -190,6 +171,12 @@ function CreatorOrbit({
 }) {
   const groupRef = useRef(null);
   const texture = useLoader(THREE.TextureLoader, channel.avatar);
+  const avatarTexture = useMemo(() => {
+    const nextTexture = texture.clone();
+    nextTexture.colorSpace = THREE.SRGBColorSpace;
+    nextTexture.needsUpdate = true;
+    return nextTexture;
+  }, [texture]);
 
   const { angleOffset, radius, speed, verticalOffset } =
     getCreatorOrbit(index);
@@ -202,6 +189,12 @@ function CreatorOrbit({
   );
 
   const isSelected = selectedCreator?.name === channel.name;
+
+  useEffect(() => {
+    return () => {
+      document.body.style.cursor = "default";
+    };
+  }, []);
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
@@ -237,15 +230,16 @@ function CreatorOrbit({
 
   const handlePointerOver = (event) => {
     event.stopPropagation();
-    document.body.style.cursor = "pointer";
+    event.nativeEvent.target.style.cursor = "pointer";
   };
 
-  const handlePointerOut = () => {
-    document.body.style.cursor = "default";
+  const handlePointerOut = (event) => {
+    event.nativeEvent.target.style.cursor = "grab";
   };
 
   return (
     <group ref={groupRef}>
+      <Billboard follow>
       <mesh
         position={[0, 0, -0.04]}
         onClick={handleClick}
@@ -271,14 +265,14 @@ function CreatorOrbit({
       >
         <circleGeometry args={[creatorSize, 48]} />
         <meshBasicMaterial
-          map={texture}
+          map={avatarTexture}
           transparent
           toneMapped={false}
         />
       </mesh>
 
       <mesh
-        position={[0, 0, -0.05]}
+        position={[0, 0, 0.02]}
         onClick={handleClick}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
@@ -304,6 +298,7 @@ function CreatorOrbit({
           blending={THREE.AdditiveBlending}
         />
       </mesh>
+      </Billboard>
     </group>
   );
 }
@@ -324,41 +319,41 @@ function Creators({ selectedCreator, setSelectedCreator }) {
   );
 }
 
-function OrbitCamera({ selectedCreator }) {
-  const transitionRef = useRef(false);
-  const activeCreatorRef = useRef(null);
-  const previousSelectedRef = useRef(null);
+function OrbitCamera({ selectedCreator, controlsRef }) {
+  const lookTargetRef = useRef(new THREE.Vector3());
+  const wasSelectedRef = useRef(false);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const camera = state.camera;
     const time = state.clock.getElapsedTime();
+    const positionDamping = 1 - Math.exp(-delta * 3.2);
+    const targetDamping = 1 - Math.exp(-delta * 5);
 
     if (!selectedCreator) {
-      if (
-        previousSelectedRef.current !== null &&
-        !transitionRef.current
-      ) {
-        transitionRef.current = true;
+      if (!wasSelectedRef.current) return;
 
-        gsap.killTweensOf(camera.position);
+      camera.position.lerp(HOME_CAMERA_POSITION, positionDamping);
+      lookTargetRef.current.lerp(HOME_CAMERA_TARGET, targetDamping);
 
-        gsap.to(camera.position, {
-          x: 0,
-          y: 0,
-          z: 8,
-          duration: 1.2,
-          ease: "power3.inOut",
-          onComplete: () => {
-            transitionRef.current = false;
-            activeCreatorRef.current = null;
-            previousSelectedRef.current = null;
-            camera.lookAt(0, 0, 0);
-          },
-        });
+      if (controlsRef.current) {
+        controlsRef.current.target.lerp(HOME_CAMERA_TARGET, targetDamping);
+        controlsRef.current.update();
+      } else {
+        camera.lookAt(lookTargetRef.current);
+      }
+
+      if (camera.position.distanceTo(HOME_CAMERA_POSITION) < 0.02) {
+        camera.position.copy(HOME_CAMERA_POSITION);
+        lookTargetRef.current.copy(HOME_CAMERA_TARGET);
+        controlsRef.current?.target.copy(HOME_CAMERA_TARGET);
+        controlsRef.current?.update();
+        wasSelectedRef.current = false;
       }
 
       return;
     }
+
+    wasSelectedRef.current = true;
 
     const selectedIndex = channels.findIndex(
       (channel) => channel.name === selectedCreator.name
@@ -399,40 +394,14 @@ function OrbitCamera({ selectedCreator }) {
 
     const desiredCameraPosition = creatorPosition
       .clone()
-      .add(outwardDirection.multiplyScalar(0.95))
-      .add(orbitDirection.multiplyScalar(-0.35));
+      .add(outwardDirection.multiplyScalar(3.5))
+      .add(orbitDirection.multiplyScalar(-1.1));
 
     const targetLookAt = creatorPosition.clone();
 
-    if (
-      previousSelectedRef.current !== selectedIndex
-    ) {
-      previousSelectedRef.current = selectedIndex;
-      activeCreatorRef.current = selectedIndex;
-      transitionRef.current = true;
-
-      gsap.killTweensOf(camera.position);
-
-      gsap.to(camera.position, {
-        x: desiredCameraPosition.x,
-        y: desiredCameraPosition.y,
-        z: desiredCameraPosition.z,
-        duration: 1.6,
-        ease: "power3.inOut",
-        onComplete: () => {
-          transitionRef.current = false;
-        },
-      });
-
-      return;
-    }
-
-    if (!transitionRef.current) {
-      camera.position.lerp(desiredCameraPosition, 0.075);
-    }
-
-    const lookTarget = targetLookAt.clone();
-    camera.lookAt(lookTarget);
+    camera.position.lerp(desiredCameraPosition, positionDamping);
+    lookTargetRef.current.lerp(targetLookAt, targetDamping);
+    camera.lookAt(lookTargetRef.current);
   });
 
   return null;
@@ -468,8 +437,8 @@ function GalaxyContent({
   );
 }
 
-function GalaxyScene() {
-  const [selectedCreator, setSelectedCreator] = useState(null);
+function GalaxyScene({ selectedCreator, setSelectedCreator }) {
+  const controlsRef = useRef(null);
 
   return (
     <Canvas
@@ -478,10 +447,30 @@ function GalaxyScene() {
         fov: 60,
       }}
       dpr={[1, 2]}
+      onPointerMissed={() => setSelectedCreator(null)}
+      gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}
     >
       <color attach="background" args={["#030108"]} />
 
-      <OrbitCamera selectedCreator={selectedCreator} />
+      <OrbitCamera
+        selectedCreator={selectedCreator}
+        controlsRef={controlsRef}
+      />
+
+      <OrbitControls
+        ref={controlsRef}
+        enabled={!selectedCreator}
+        target={[0, GALAXY_Y_OFFSET, 0]}
+        enablePan={false}
+        enableDamping
+        dampingFactor={0.08}
+        rotateSpeed={0.55}
+        zoomSpeed={0.75}
+        minDistance={4.5}
+        maxDistance={15}
+        minPolarAngle={Math.PI * 0.22}
+        maxPolarAngle={Math.PI * 0.78}
+      />
 
       <GalaxyContent
         selectedCreator={selectedCreator}

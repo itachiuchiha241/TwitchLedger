@@ -1076,10 +1076,219 @@ body {
   background: #05030a;
 }
 
+.support-galaxy-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 42%, rgba(2, 0, 7, 0.45) 100%);
+}
+
 .support-galaxy-page canvas {
   display: block;
   width: 100% !important;
   height: 100% !important;
+  cursor: grab;
+}
+
+.support-galaxy-page canvas:active {
+  cursor: grabbing;
+}
+
+.galaxy-explorer-hud {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  pointer-events: none;
+  color: rgba(245, 237, 255, 0.9);
+  animation: galaxy-hud-in 700ms ease-out both;
+}
+
+.galaxy-scene-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  padding: 10px 13px;
+  border: 1px solid rgba(192, 149, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(9, 5, 20, 0.52);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+}
+
+.galaxy-scene-label strong,
+.galaxy-scene-label span {
+  display: block;
+}
+
+.galaxy-scene-label strong {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.galaxy-scene-label div span {
+  margin-top: 2px;
+  color: rgba(225, 207, 255, 0.55);
+  font-size: 10px;
+}
+
+.galaxy-scene-signal {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #bd8cff;
+  box-shadow: 0 0 0 4px rgba(189, 140, 255, 0.12), 0 0 14px #a970ff;
+  animation: galaxy-signal-pulse 1.8s ease-in-out infinite;
+}
+
+.galaxy-control-hint {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border: 1px solid rgba(192, 149, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(9, 5, 20, 0.62);
+  color: rgba(239, 229, 255, 0.68);
+  font-size: 10px;
+  backdrop-filter: blur(12px);
+}
+
+.galaxy-control-hint i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(190, 145, 255, 0.65);
+}
+
+@keyframes galaxy-hud-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes galaxy-signal-pulse {
+  50% {
+    opacity: 0.45;
+    box-shadow: 0 0 0 7px rgba(189, 140, 255, 0.04), 0 0 20px #a970ff;
+  }
+}
+
+.galaxy-selection-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(3, 1, 8, 0.58);
+  backdrop-filter: blur(5px) saturate(0.72);
+  -webkit-backdrop-filter: blur(5px) saturate(0.72);
+  animation: galaxy-selection-in 220ms ease-out both;
+}
+
+.galaxy-selection-layer .galaxy-creator-card {
+  width: min(420px, 100%);
+  min-height: 0;
+  padding: 24px;
+  gap: 18px;
+  border-color: rgba(190, 141, 255, 0.5);
+  background: linear-gradient(135deg, rgba(34, 17, 56, 0.96), rgba(10, 6, 23, 0.93));
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.62), 0 0 65px rgba(145, 71, 255, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  animation: galaxy-card-in 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.galaxy-card-eyebrow {
+  color: #c89cff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.galaxy-selection-layer .galaxy-card-avatar {
+  width: 82px;
+  height: 82px;
+  padding: 4px;
+}
+
+.galaxy-selection-layer .galaxy-card-name {
+  font-size: 20px;
+}
+
+.galaxy-selection-layer .galaxy-card-role {
+  font-size: 12px;
+}
+
+.galaxy-selection-layer .galaxy-card-description {
+  max-width: 270px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  font-size: 11px;
+}
+
+.galaxy-selection-layer .galaxy-card-stats strong {
+  font-size: 15px;
+}
+
+.galaxy-selection-layer .galaxy-twitch-button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  font-size: 11px;
+}
+
+@keyframes galaxy-selection-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes galaxy-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 520px) {
+  .galaxy-selection-layer {
+    padding: 16px;
+  }
+
+  .galaxy-selection-layer .galaxy-creator-card {
+    padding: 18px;
+  }
+
+  .galaxy-selection-layer .galaxy-card-avatar {
+    width: 64px;
+    height: 64px;
+  }
 }
 
 .galaxy-fullscreen {
