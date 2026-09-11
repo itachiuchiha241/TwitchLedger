@@ -3,12 +3,13 @@ import { Billboard, OrbitControls, Stars } from "@react-three/drei";
 import * as THREE from "three";
 import { useEffect, useMemo, useRef } from "react";
 
-import profilePic from "../assets/prem.png";
+import profilePic from "../assets/prem2.png";
 import { channels } from "../services/data";
 
 const ORBIT_DISTANCES = [2.0, 2.65, 3.35];
 const GALAXY_Y_OFFSET = 0.35;
 const ORBIT_TILT = Math.atan2(0.65, 0.58);
+
 const HOME_CAMERA_POSITION = new THREE.Vector3(0, 0, 8);
 const HOME_CAMERA_TARGET = new THREE.Vector3(0, GALAXY_Y_OFFSET, 0);
 
