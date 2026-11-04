@@ -1,9 +1,10 @@
 
 function TwitchLogin() {
-  const clientId = "a6evew4gzjz1knd9pl3dh7czsy2gid";
+  const clientId = "YOUR_CLIENT_ID";
 
-  // Automatically detects whether you're using PC or phone
-  const redirectUri = `${window.location.origin}/`;
+  const redirectUri = window.location.hostname === "localhost"
+    ? "http://localhost:5173/"
+    : "https://itachiuchiha241.github.io/TwitchLedger/";
 
   const params = new URLSearchParams({
     client_id: clientId,
