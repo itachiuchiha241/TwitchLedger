@@ -1,6 +1,6 @@
 
 function TwitchLogin() {
-  const clientId = "YOUR_CLIENT_ID";
+  const clientId = "a6evew4gzjz1knd9pl3dh7czsy2gid";
 
   const redirectUri = window.location.hostname === "localhost"
     ? "http://localhost:5173/"
