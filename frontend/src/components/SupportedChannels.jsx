@@ -1,4 +1,7 @@
-import { channels } from "../services/data";
+
+import { useEffect, useState } from "react";
+
+import { fetchChannels } from "../services/channelApi";
 
 import {
   getGiftBadgeImage,
@@ -17,7 +20,55 @@ import {
   getRemaining,
 } from "../services/badgeUtils";
 
-function SupportedChannels({ searchTerm }) {
+// Resolve MongoDB avatar paths to actual Vite asset URLs
+const avatarImages = import.meta.glob(
+  "../assets/*",
+  {
+    eager: true,
+    query: "?url",
+    import: "default",
+  }
+);
+
+function getAvatarUrl(avatar) {
+  const filename = avatar.split("/").pop();
+
+  return (
+    avatarImages[`../assets/${filename}`] ||
+    avatar
+  );
+}
+
+function SupportedChannels({ searchTerm = "" }) {
+  const [channels, setChannels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // Fetch channels from MongoDB through Express
+  useEffect(() => {
+    async function loadChannels() {
+      try {
+        setLoading(true);
+        setError("");
+
+        const data = await fetchChannels();
+
+        setChannels(data);
+      } catch (error) {
+        console.error("Channel loading failed:", error);
+
+        setError(
+          "Failed to load channels. Please check the backend server."
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadChannels();
+  }, []);
+
+  // Search channels
   const filteredChannels = channels.filter((channel) =>
     channel.name
       .toLowerCase()
@@ -28,208 +79,201 @@ function SupportedChannels({ searchTerm }) {
     <div className="card supported-channels">
       <h2>Supported Channels</h2>
 
-      {filteredChannels.length === 0 && (
+      {loading && (
+        <p>Loading channels...</p>
+      )}
+
+      {error && (
+        <p className="error-message">
+          {error}
+        </p>
+      )}
+
+      {!loading && !error && filteredChannels.length === 0 && (
         <p>No channels found.</p>
       )}
 
-      <ul className="channel-list">
-        {filteredChannels.map((channel) => {
-          const currentSubBadge = getCurrentBadge(
-            channel.subs,
-            giftSubBadges
-          );
+      {!loading && !error && (
+        <ul className="channel-list">
+          {filteredChannels.map((channel) => {
+            const currentSubBadge = getCurrentBadge(
+              channel.subs,
+              giftSubBadges
+            );
 
-          const nextSubBadge = getNextBadge(
-            channel.subs,
-            giftSubBadges
-          );
+            const nextSubBadge = getNextBadge(
+              channel.subs,
+              giftSubBadges
+            );
 
-          const subProgress = getProgress(
-            channel.subs,
-            giftSubBadges
-          );
+            const subProgress = getProgress(
+              channel.subs,
+              giftSubBadges
+            );
 
-          const subRemaining = getRemaining(
-            channel.subs,
-            giftSubBadges
-          );
+            const subRemaining = getRemaining(
+              channel.subs,
+              giftSubBadges
+            );
 
-          const currentBitsBadge = getCurrentBadge(
-            channel.bits,
-            bitsBadges
-          );
+            const currentBitsBadge = getCurrentBadge(
+              channel.bits,
+              bitsBadges
+            );
 
-          const nextBitsBadge = getNextBadge(
-            channel.bits,
-            bitsBadges
-          );
+            const nextBitsBadge = getNextBadge(
+              channel.bits,
+              bitsBadges
+            );
 
-          const bitsProgress = getProgress(
-            channel.bits,
-            bitsBadges
-          );
+            const bitsProgress = getProgress(
+              channel.bits,
+              bitsBadges
+            );
 
-          const bitsRemaining = getRemaining(
-            channel.bits,
-            bitsBadges
-          );
+            const bitsRemaining = getRemaining(
+              channel.bits,
+              bitsBadges
+            );
 
-          return (
-            <li
-              key={channel.name}
-              className="channel-item"
-            >
-              <img
-                src={channel.avatar}
-                alt={channel.name}
-                className="channel-avatar"
-              />
+            return (
+              <li
+                key={channel.name}
+                className="channel-item"
+              >
+                <img
+                  src={getAvatarUrl(channel.avatar)}
+                  alt={channel.name}
+                  className="channel-avatar"
+                />
 
-              <div className="channel-info">
-
-                <div className="channel-name-row">
-
-                  <a
-                    href={channel.twitchUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="channel-name"
-                  >
-                    {channel.name}
-                  </a>
-
-                  {/* VERIFIED BADGE */}
-                  {channel.verified && (
-                    <svg
-                      className="verified-icon"
-                      viewBox="0 0 16 16"
-                      width="16"
-                      height="16"
-                      aria-label="Verified Partner"
+                <div className="channel-info">
+                  <div className="channel-name-row">
+                    <a
+                      href={channel.twitchUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="channel-name"
                     >
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M12.5 3.5 8 2 3.5 3.5 2 8l1.5 4.5L8 14l4.5-1.5L14 8l-1.5-4.5ZM7 11l4.5-4.5L10 5 7 8 5.5 6.5 4 8l3 3Z"
-                      />
-                    </svg>
-                  )}
+                      {channel.name}
+                    </a>
 
+                    {channel.verified && (
+                      <svg
+                        className="verified-icon"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        height="16"
+                        aria-label="Verified Partner"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M12.5 3.5 8 2 3.5 3.5 2 8l1.5 4.5L8 14l4.5-1.5L14 8l-1.5-4.5ZM7 11l4.5-4.5L10 5 7 8 5.5 6.5 4 8l3 3Z"
+                        />
+                      </svg>
+                    )}
+                  </div>
+
+                  <p>
+                    {channel.subs.toLocaleString()} Subs Gifted
+                  </p>
+
+                  <p>
+                    {channel.bits.toLocaleString()} Bits Donated
+                  </p>
                 </div>
 
-                <p>
-                  {channel.subs.toLocaleString()} Subs Gifted
-                </p>
+                <div className="channel-progress">
+                  {/* SUB BADGES */}
+                  <div className="badge-row">
+                    <div className="badge-container">
+                      {currentSubBadge ? (
+                        <img
+                          src={getGiftBadgeImage(currentSubBadge)}
+                          alt="Current Sub Badge"
+                          className="badge-icon"
+                        />
+                      ) : (
+                        <span>—</span>
+                      )}
+                    </div>
 
-                <p>
-                  {channel.bits.toLocaleString()} Bits Donated
-                </p>
-
-              </div>
-
-              <div className="channel-progress">
-
-                {/* SUB BADGES */}
-                <div className="badge-row">
-
-                  <div className="badge-container">
-                    {currentSubBadge ? (
-                      <img
-                        src={getGiftBadgeImage(
-                          currentSubBadge
-                        )}
-                        alt="Current Sub Badge"
-                        className="badge-icon"
+                    <div className="progress-bar">
+                      <div
+                        className="progress-fill"
+                        style={{
+                          width: `${subProgress}%`,
+                        }}
                       />
-                    ) : (
-                      <span>—</span>
-                    )}
+                    </div>
+
+                    <div className="badge-container">
+                      {nextSubBadge ? (
+                        <img
+                          src={getGiftBadgeImage(nextSubBadge)}
+                          alt="Next Sub Badge"
+                          className="badge-icon"
+                        />
+                      ) : (
+                        <span>✓</span>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="progress-bar">
-                    <div
-                      className="progress-fill"
-                      style={{
-                        width: `${subProgress}%`,
-                      }}
-                    ></div>
-                  </div>
+                  <p className="remaining-text">
+                    {nextSubBadge
+                      ? `${subRemaining.toLocaleString()} subs to next badge`
+                      : "Maximum sub badge reached"}
+                  </p>
 
-                  <div className="badge-container">
-                    {nextSubBadge ? (
-                      <img
-                        src={getGiftBadgeImage(
-                          nextSubBadge
-                        )}
-                        alt="Next Sub Badge"
-                        className="badge-icon"
+                  {/* BITS BADGES */}
+                  <div className="badge-row">
+                    <div className="badge-container">
+                      {currentBitsBadge ? (
+                        <img
+                          src={getBitsBadgeImage(currentBitsBadge)}
+                          alt="Current Bits Badge"
+                          className="badge-icon"
+                        />
+                      ) : (
+                        <span>—</span>
+                      )}
+                    </div>
+
+                    <div className="progress-bar">
+                      <div
+                        className="progress-fill"
+                        style={{
+                          width: `${bitsProgress}%`,
+                        }}
                       />
-                    ) : (
-                      <span>✓</span>
-                    )}
+                    </div>
+
+                    <div className="badge-container">
+                      {nextBitsBadge ? (
+                        <img
+                          src={getBitsBadgeImage(nextBitsBadge)}
+                          alt="Next Bits Badge"
+                          className="badge-icon"
+                        />
+                      ) : (
+                        <span>✓</span>
+                      )}
+                    </div>
                   </div>
 
+                  <p className="remaining-text">
+                    {nextBitsBadge
+                      ? `${bitsRemaining.toLocaleString()} bits to next badge`
+                      : "Maximum bits badge reached"}
+                  </p>
                 </div>
-
-                <p className="remaining-text">
-                  {nextSubBadge
-                    ? `${subRemaining.toLocaleString()} subs to next badge`
-                    : "Maximum sub badge reached"}
-                </p>
-
-                {/* BITS BADGES */}
-                <div className="badge-row">
-
-                  <div className="badge-container">
-                    {currentBitsBadge ? (
-                      <img
-                        src={getBitsBadgeImage(
-                          currentBitsBadge
-                        )}
-                        alt="Current Bits Badge"
-                        className="badge-icon"
-                      />
-                    ) : (
-                      <span>—</span>
-                    )}
-                  </div>
-
-                  <div className="progress-bar">
-                    <div
-                      className="progress-fill"
-                      style={{
-                        width: `${bitsProgress}%`,
-                      }}
-                    ></div>
-                  </div>
-
-                  <div className="badge-container">
-                    {nextBitsBadge ? (
-                      <img
-                        src={getBitsBadgeImage(
-                          nextBitsBadge
-                        )}
-                        alt="Next Bits Badge"
-                        className="badge-icon"
-                      />
-                    ) : (
-                      <span>✓</span>
-                    )}
-                  </div>
-
-                </div>
-
-                <p className="remaining-text">
-                  {nextBitsBadge
-                    ? `${bitsRemaining.toLocaleString()} bits to next badge`
-                    : "Maximum bits badge reached"}
-                </p>
-
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 }

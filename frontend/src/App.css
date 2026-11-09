@@ -1314,98 +1314,235 @@ body {
 }
 
 
+
 /* =========================================================
-   LOGIN
-   ========================================================= */
+   PREMIUM LOGIN PAGE
+========================================================= */
 
 .login-page {
   min-height: 100vh;
+  width: 100%;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  padding: 30px;
+  padding: 24px;
+
+  position: relative;
+  overflow: hidden;
 
   color: var(--text-primary);
 
   background:
-    radial-gradient(circle at 50% 40%,
-      rgba(145, 71, 255, 0.16),
-      transparent 35%),
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(145, 71, 255, 0.18),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(119, 44, 232, 0.08),
+      transparent 40%
+    ),
     var(--bg-primary);
 }
 
+/* Ambient glow */
+
+.login-page::before {
+  content: "";
+
+  position: absolute;
+
+  width: 420px;
+  height: 420px;
+
+  background: rgba(145, 71, 255, 0.12);
+
+  filter: blur(120px);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+/* LOGIN CARD */
 
 .login-card {
-  width: min(420px, 100%);
+  width: min(440px, 100%);
 
-  padding: 40px;
+  position: relative;
+  z-index: 1;
 
-  border: 1px solid var(--border);
-  border-radius: 24px;
-
-  background: var(--surface);
-
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.35);
+  padding: 48px 40px;
 
   text-align: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 28px;
+
+  background: rgba(20, 18, 29, 0.78);
+
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
+  box-shadow:
+    0 30px 100px rgba(0, 0, 0, 0.45),
+    0 0 50px rgba(145, 71, 255, 0.04);
+
+  animation: loginEntrance 0.7s ease both;
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
+.login-card:hover {
+  border-color: rgba(145, 71, 255, 0.25);
+
+  box-shadow:
+    0 35px 100px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(145, 71, 255, 0.08);
+}
+
+/* BRAND TITLE */
 
 .login-card h1 {
-  font-size: 30px;
-  letter-spacing: -1px;
+  margin: 0;
+
+  font-size: clamp(28px, 5vw, 36px);
+  font-weight: 800;
+
+  letter-spacing: -1.5px;
+
+  background: linear-gradient(
+    135deg,
+    #ffffff 20%,
+    #c7a5ff 60%,
+    #9147ff 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
 }
 
+/* DESCRIPTION */
 
 .login-card p {
-  margin: 10px 0 25px;
+  margin: 14px 0 32px;
 
   color: var(--text-secondary);
 
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 1.7;
 }
 
+/* TWITCH LOGIN BUTTON */
 
 .twitch-login-btn {
   width: 100%;
-  height: 46px;
+  height: 52px;
 
-  border: none;
-  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 13px;
 
-  background:
-    linear-gradient(135deg,
-      #9147ff,
-      #772ce8);
+  color: #ffffff;
 
-  font-size: 13px;
+  background: linear-gradient(
+    135deg,
+    #9147ff,
+    #772ce8
+  );
+
+  font-size: 14px;
   font-weight: 700;
+  letter-spacing: 0.2px;
 
   cursor: pointer;
 
   box-shadow:
-    0 10px 30px rgba(145, 71, 255, 0.25);
+    0 8px 25px rgba(145, 71, 255, 0.22);
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
 }
-
 
 .twitch-login-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+
+  filter: brightness(1.12);
 
   box-shadow:
-    0 14px 35px rgba(145, 71, 255, 0.35);
+    0 15px 35px rgba(145, 71, 255, 0.4),
+    0 0 20px rgba(145, 71, 255, 0.15);
 }
+
+.twitch-login-btn:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+.twitch-login-btn:focus-visible {
+  outline: 2px solid #c7a5ff;
+  outline-offset: 4px;
+}
+
+/* ENTRANCE ANIMATION */
+
+@keyframes loginEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+  .login-page {
+    padding: 20px;
+  }
+
+  .login-card {
+    padding: 38px 26px;
+    border-radius: 22px;
+  }
+
+  .login-card p {
+    font-size: 13px;
+  }
+
+  .twitch-login-btn {
+    height: 48px;
+  }
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  .login-card {
+    animation: none;
+  }
+
+  .twitch-login-btn,
+  .login-card {
+    transition: none;
+  }
+}
+
 
 
 /* =========================================================
@@ -1884,3 +2021,421 @@ body {
     height: 38px;
   }
 }
+
+
+/* =========================================================
+   CHANNEL MANAGER
+   ========================================================= */
+
+.channel-manager {
+  width: 100%;
+  padding: 24px 0 40px;
+}
+
+.channel-manager-header {
+  margin-bottom: 30px;
+}
+
+.channel-manager-header h1 {
+  font-size: clamp(28px, 3vw, 38px);
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+
+.channel-manager-header p {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* FORM CARD */
+
+.channel-form-card {
+  padding: 26px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.channel-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.channel-form-header h2 {
+  color: var(--text-primary);
+  font-size: 21px;
+  margin-top: 8px;
+}
+
+.channel-form-eyebrow {
+  color: var(--accent-light);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+/* FORM GRID */
+
+.channel-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.channel-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.channel-form-full {
+  grid-column: 1 / -1;
+}
+
+.channel-form-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-light);
+  color: var(--text-primary);
+  outline: none;
+  font-size: 13px;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.channel-form-field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* VERIFIED */
+
+.channel-verified-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.channel-verified-checkbox input {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+}
+
+/* BUTTONS */
+
+.channel-form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.channel-primary-button,
+.channel-secondary-button,
+.channel-edit-button,
+.channel-delete-button,
+.channel-cancel-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.channel-primary-button {
+  color: white;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.channel-secondary-button,
+.channel-edit-button,
+.channel-cancel-icon {
+  color: var(--text-primary);
+  background: var(--surface-light);
+  border: 1px solid var(--border);
+}
+
+.channel-delete-button {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.channel-primary-button:hover,
+.channel-secondary-button:hover,
+.channel-edit-button:hover,
+.channel-delete-button:hover {
+  transform: translateY(-2px);
+}
+
+.channel-cancel-icon {
+  padding: 8px;
+}
+
+/* STATUS */
+
+.channel-success,
+.channel-error {
+  padding: 12px;
+  margin-top: 14px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.channel-success {
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.channel-error {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+}
+
+/* CHANNEL LIST SECTION */
+
+.channel-list-section {
+  margin-top: 36px;
+}
+
+.channel-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.channel-list-header h2 {
+  color: var(--text-primary);
+  font-size: 21px;
+}
+
+.channel-list-header p {
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+/* IMPORTANT:
+   Scoped to channel-manager to avoid affecting
+   your existing Supported Channels list.
+*/
+
+.channel-manager .channel-list {
+  display: grid;
+  gap: 14px;
+  list-style: none;
+}
+
+/* MANAGEMENT CARD */
+
+.channel-management-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 22px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  transition: border 0.2s, transform 0.2s;
+}
+
+.channel-management-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.channel-management-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.channel-management-avatar {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+.channel-management-details {
+  min-width: 0;
+}
+
+.channel-management-details h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  font-size: 15px;
+  margin-bottom: 7px;
+}
+
+.channel-management-details p {
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.channel-management-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--accent-light);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.channel-management-link:hover {
+  text-decoration: underline;
+}
+
+.channel-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 11px;
+}
+
+.channel-management-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.channel-empty-state {
+  padding: 32px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  color: var(--text-secondary);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 650px) {
+  .channel-form-card {
+    padding: 18px;
+  }
+
+  .channel-form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .channel-form-full {
+    grid-column: auto;
+  }
+
+  .channel-list-header {
+    align-items: flex-start;
+  }
+
+  .channel-management-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .channel-management-actions {
+    width: 100%;
+  }
+
+  .channel-management-actions button {
+    flex: 1;
+  }
+}
+
+
+/* Authentication Screen */
+
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0e0e10;
+  color: white;
+}
+
+.auth-card {
+  text-align: center;
+  padding: 40px;
+  border: 1px solid #2c2c30;
+  border-radius: 16px;
+  background: #18181b;
+}
+
+.auth-card h1 {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.auth-card p {
+  color: #adadb8;
+  margin-bottom: 24px;
+}
+
+.twitch-login-btn {
+  background: #9147ff;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.twitch-login-btn:hover {
+  background: #772ce8;
+}
+
+.auth-user-bar {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #18181b;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 30px;
+  z-index: 1000;
+}
+
+.auth-user-bar img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+

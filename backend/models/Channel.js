@@ -1,12 +1,21 @@
+
 const mongoose = require("mongoose");
 
 const channelSchema = new mongoose.Schema(
   {
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+
     name: {
       type: String,
       required: true,
-      unique: true,
+      trim: true,
     },
+
     verified: {
       type: Boolean,
       default: false,
@@ -15,11 +24,13 @@ const channelSchema = new mongoose.Schema(
     subs: {
       type: Number,
       default: 0,
+      min: 0,
     },
 
     bits: {
       type: Number,
       default: 0,
+      min: 0,
     },
 
     avatar: {
@@ -47,11 +58,8 @@ const channelSchema = new mongoose.Schema(
   }
 );
 
-const Channel = mongoose.model(
-  "Channel",
-  channelSchema
-);
+// Same creator can exist for different users,
+// but each user can only add that creator once.
+channelSchema.index({ owner: 1, name: 1 }, { unique: true });
 
-
-
-module.exports = Channel;
+module.exports = mongoose.model("Channel", channelSchema);

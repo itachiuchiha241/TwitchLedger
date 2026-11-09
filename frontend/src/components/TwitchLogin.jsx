@@ -1,27 +1,16 @@
 
 function TwitchLogin() {
-  const clientId = "a6evew4gzjz1knd9pl3dh7czsy2gid";
-
-  const redirectUri = window.location.hostname === "localhost"
-    ? "http://localhost:5173/"
-    : "https://itachiuchiha241.github.io/TwitchLedger/";
-
-  const params = new URLSearchParams({
-    client_id: clientId,
-    redirect_uri: redirectUri,
-    response_type: "token",
-    scope: "user:read:email",
-  });
-
-  const twitchAuthUrl =
-    `https://id.twitch.tv/oauth2/authorize?${params.toString()}`;
+  const handleLogin = () => {
+    window.location.assign(
+      "http://localhost:5000/api/auth/twitch"
+    );
+  };
 
   return (
     <button
+      type="button"
       className="twitch-login-btn"
-      onClick={() => {
-        window.location.href = twitchAuthUrl;
-      }}
+      onClick={handleLogin}
     >
       Login with Twitch
     </button>

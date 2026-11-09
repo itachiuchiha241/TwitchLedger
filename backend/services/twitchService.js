@@ -1,10 +1,9 @@
+
 const axios = require("axios");
 const { getAccessToken } = require("./tokenService");
 
 async function getTwitchUser(username) {
   const accessToken = await getAccessToken();
-
-  console.log("Searching username:", username);
 
   const userResponse = await axios.get(
     "https://api.twitch.tv/helix/users",
@@ -13,7 +12,7 @@ async function getTwitchUser(username) {
         login: username,
       },
       headers: {
-        "Client-ID": process.env.CLIENT_ID,
+        "Client-ID": process.env.TWITCH_CLIENT_ID,
         Authorization: `Bearer ${accessToken}`,
       },
     }

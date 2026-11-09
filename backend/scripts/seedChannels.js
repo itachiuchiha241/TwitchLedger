@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 const Channel = require("../models/Channel");
 
@@ -12,7 +13,6 @@ const channels = [
     description:
       "Konnichiwa! I'm a Japanese Apprentice Witch🧙‍♀️💫 I'm learning English through all kinds of games🎀I aim to create a win-win stream where English speakers who want to learn Japanese and I can learn together✨ ※All archives are available on Youtube.",
   },
-
   {
     name: "がぶ飲みちゃん",
     subs: 4744,
@@ -23,7 +23,6 @@ const channels = [
     description:
       "がぶちゃんと申します😊醤油をがぶ飲みしていたら色黒になりました🙏平日22:30～配信中！⋆͛🎮⋆͛ I'm Gabu-chan! I have chugged soy sauce a lot🙋‍♀️♡Genshin impact/Honkai starrail / Resindet evil / SF6♡",
   },
-
   {
     name: "我妻まや",
     subs: 1643,
@@ -34,7 +33,6 @@ const channels = [
     description:
       "流星街育ちの未亡人です～！あがつままやなので、略してママって呼んでね❤みんなを優しく包んで絞めあげます❤※AIイラスト使用してるorしたことある配信者さんはごめんなさい。先手ブロックしてることもあります。",
   },
-
   {
     name: "れんれんだよぉ",
     subs: 352,
@@ -45,7 +43,6 @@ const channels = [
     description:
       "※全てのゲームが下手 / 不定期で配信(日中〜夕方が多め) / スタンプいっぱいあるから使ってね♡ / ※AIイラストを使用している方はブロックしていることがあります",
   },
-
   {
     name: "ちさと_",
     subs: 301,
@@ -56,7 +53,6 @@ const channels = [
     description:
       "ちさと です！不定期になりますが、VALORANTを中心に配信してます！",
   },
-
   {
     name: "AkarinVT",
     subs: 550,
@@ -67,7 +63,6 @@ const channels = [
     description:
       "hi! my name is 岩倉あかりん/ Iwakura Akarin. I'm a white cat virtual YouTuber こんにちは！岩倉あかりんと申します。白猫バーチャルYouTuberです welcome to the channel! I do a lot of just chatting to chat. I play mostly FPS games but l would love to try other game genres as well 私は視聴者に対して「雑談」をたくさんします。私は主に FPS ゲームをプレイしますが、他のゲームジャンルも試してみたいと思っています language main is english but I am currently learning japanese so I would be glad if you could teach me 主に英語を話しますが、現在日本語を勉強中なので、教えていただけると嬉しいです",
   },
-
   {
     name: "はるこさん",
     subs: 123,
@@ -78,7 +73,6 @@ const channels = [
     description:
       "はるこです。アヒルとコーヒーがすきです。",
   },
-
   {
     name: "さわ____",
     subs: 20,
@@ -89,7 +83,6 @@ const channels = [
     description:
       "❆HoYoCREATORS&Endfield IndustriesCreators❆歯医者さんでお仕事しながら、原神メインにHoYoverseのゲームの配信をしています。最近エンドフィールド始めました(⑉･ ･⑉)",
   },
-
   {
     name: "みつのはの",
     subs: 5,
@@ -100,7 +93,6 @@ const channels = [
     description:
       "ゲームとカフェラテが好きです☕🌙",
   },
-
   {
     name: "餅乃さや",
     subs: 5,
@@ -111,7 +103,6 @@ const channels = [
     description:
       "ゲームとジャンクフード大好き管理不足栄養士🍡 21時頃〜牧場物語、原神、崩壊スターレイル、ゼンレスゾーンゼロなど配信してます🐰",
   },
-
   {
     name: "深白まお",
     subs: 20,
@@ -122,7 +113,6 @@ const channels = [
     description:
       "深白まおと申します！ I'm Mao Mishiro!（ debut 23.04.01 / Twitch Partner 23.11.08 ）🎮 game | 🗣️ just chatting | 🎨 draw | 🎶 sing | 🤍 model : ramune 様 | ✉ contact : info@seedsglobal.jp",
   },
-
   {
     name: "狐白しゅろ",
     subs: 29,
@@ -133,7 +123,6 @@ const channels = [
     description:
       "こんしゅろ～🦊🎀ゲーム大好きなきつねの女の子です🤍ゆるくぽへぽへ一緒に過ごそう～!!",
   },
-
   {
     name: "TenZ",
     subs: 25,
@@ -149,25 +138,30 @@ const channels = [
 async function seedChannels() {
   try {
     await mongoose.connect(
-      "mongodb://localhost:27017/twitchledger"
+      "mongodb://127.0.0.1:27017/twitchledger"
     );
 
     console.log("MongoDB Connected");
 
-    await Channel.deleteMany({});
+    const operations = channels.map((channel) => ({
+      updateOne: {
+        filter: { name: channel.name },
+        update: { $set: channel },
+        upsert: true,
+      },
+    }));
 
-    await Channel.insertMany(channels);
+    await Channel.bulkWrite(operations);
 
     console.log(
-      `${channels.length} channels inserted successfully`
+      `${channels.length} channels inserted/updated successfully`
     );
-
-    await mongoose.connection.close();
-
-    console.log("MongoDB Connection Closed");
   } catch (error) {
     console.error("Seed Failed:", error);
-    process.exit(1);
+    process.exitCode = 1;
+  } finally {
+    await mongoose.connection.close();
+    console.log("MongoDB Connection Closed");
   }
 }
 

@@ -1,17 +1,20 @@
+
 const mongoose = require("mongoose");
 
 async function connectDatabase() {
   try {
     await mongoose.connect(
-      "mongodb://localhost:27017/twitchledger"
+      "mongodb://127.0.0.1:27017/twitchledger"
     );
 
-    console.log("MongoDB Connected");
+    console.log("✅ MongoDB Connected");
   } catch (error) {
     console.error(
-      "MongoDB Connection Failed:",
+      "❌ MongoDB Connection Failed:",
       error.message
     );
+
+    process.exit(1);
   }
 }
 
