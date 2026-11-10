@@ -45,7 +45,7 @@ function Channels() {
   // RENDER
   return (
     <>
-      <h1>Supported Creators</h1>
+      <h1 className="channels-title">Supported Creators</h1>
 
       {loading && (
         <p className="channels-loading">

@@ -6,11 +6,14 @@ const User = require("../models/User");
 
 const router = express.Router();
 
+// Temporary OAuth state storage
+const oauthStates = new Map();
+
 // Twitch Login
 router.get("/twitch", (req, res) => {
   const state = crypto.randomBytes(32).toString("hex");
 
-  req.session.oauthState = state;
+  oauthStates.set(state, Date.now());
 
   const params = new URLSearchParams({
     client_id: process.env.TWITCH_CLIENT_ID,
@@ -35,13 +38,20 @@ router.get("/twitch/callback", async (req, res) => {
       return res.status(400).send("Twitch authorization was denied.");
     }
 
-    if (!code || !state || state !== req.session.oauthState) {
-      return res.status(400).send("Invalid OAuth state.");
+    const stateCreatedAt = oauthStates.get(state);
+
+    if (
+      !code ||
+      !stateCreatedAt ||
+      Date.now() - stateCreatedAt > 10 * 60 * 1000
+    ) {
+      return res.status(400).send("Invalid or expired OAuth state.");
     }
 
-    delete req.session.oauthState;
+    // Prevent state reuse
+    oauthStates.delete(state);
 
-    // Exchange authorization code for access token
+    // Exchange authorization code for tokens
     const tokenResponse = await axios.post(
       "https://id.twitch.tv/oauth2/token",
       null,
@@ -62,7 +72,7 @@ router.get("/twitch/callback", async (req, res) => {
       expires_in,
     } = tokenResponse.data;
 
-    // Get Twitch user information
+    // Get Twitch user
     const userResponse = await axios.get(
       "https://api.twitch.tv/helix/users",
       {
@@ -79,7 +89,7 @@ router.get("/twitch/callback", async (req, res) => {
       return res.status(400).send("Unable to retrieve Twitch user.");
     }
 
-    // Save Twitch user and OAuth tokens
+    // Save user in MongoDB
     const user = await User.findOneAndUpdate(
       { twitchId: twitchUser.id },
       {
@@ -100,7 +110,7 @@ router.get("/twitch/callback", async (req, res) => {
       }
     );
 
-    // Regenerate session after login
+    // Create authenticated session
     req.session.regenerate((sessionError) => {
       if (sessionError) {
         console.error("Session regeneration error:", sessionError);
