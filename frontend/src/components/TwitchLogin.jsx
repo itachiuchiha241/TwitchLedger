@@ -1,9 +1,8 @@
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 function TwitchLogin() {
   const handleLogin = () => {
-    window.location.assign(
-      "http://localhost:5000/api/auth/twitch"
-    );
+    window.location.assign(`${API_BASE_URL}/api/auth/twitch`);
   };
 
   return (
