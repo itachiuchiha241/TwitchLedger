@@ -603,6 +603,42 @@ body {
 }
 
 
+/* Twitch Bio / About */
+
+.channel-manager textarea[name="description"] {
+  width: 100%;
+  min-height: 140px;
+  padding: 15px 16px;
+
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.7;
+
+  resize: vertical;
+  outline: none;
+
+  transition: border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.channel-manager textarea[name="description"]::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.65;
+}
+
+.channel-manager textarea[name="description"]:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
+}
+
+
+
 /* =========================================================
    STATS
    ========================================================= */
@@ -978,7 +1014,7 @@ body {
 
 
 .creator-button {
-  margin-top:auto;
+  margin-top: auto;
 }
 
 
@@ -1335,16 +1371,12 @@ body {
   color: var(--text-primary);
 
   background:
-    radial-gradient(
-      ellipse at 50% 0%,
+    radial-gradient(ellipse at 50% 0%,
       rgba(145, 71, 255, 0.18),
-      transparent 55%
-    ),
-    radial-gradient(
-      circle at 0% 100%,
+      transparent 55%),
+    radial-gradient(circle at 0% 100%,
       rgba(119, 44, 232, 0.08),
-      transparent 40%
-    ),
+      transparent 40%),
     var(--bg-primary);
 }
 
@@ -1416,12 +1448,10 @@ body {
 
   letter-spacing: -1.5px;
 
-  background: linear-gradient(
-    135deg,
-    #ffffff 20%,
-    #c7a5ff 60%,
-    #9147ff 100%
-  );
+  background: linear-gradient(135deg,
+      #ffffff 20%,
+      #c7a5ff 60%,
+      #9147ff 100%);
 
   -webkit-background-clip: text;
   background-clip: text;
@@ -1455,11 +1485,9 @@ body {
 
   color: #ffffff;
 
-  background: linear-gradient(
-    135deg,
-    #9147ff,
-    #772ce8
-  );
+  background: linear-gradient(135deg,
+      #9147ff,
+      #772ce8);
 
   font-size: 14px;
   font-weight: 700;
@@ -2023,6 +2051,7 @@ body {
 }
 
 
+
 /* =========================================================
    CHANNEL MANAGER
    ========================================================= */
@@ -2030,8 +2059,10 @@ body {
 .channel-manager {
   width: 100%;
   padding: 24px 0 40px;
+  color: var(--text-primary);
 }
 
+/* Header */
 .channel-manager-header {
   margin-bottom: 30px;
 }
@@ -2040,12 +2071,34 @@ body {
   font-size: clamp(28px, 3vw, 38px);
   letter-spacing: -1px;
   margin-bottom: 10px;
+  color: var(--text-primary);
 }
 
 .channel-manager-header p {
   color: var(--text-secondary);
   font-size: 14px;
 }
+
+/* ================= LIGHT THEME ================= */
+
+.light-theme .channel-manager-header h1 {
+  color: var(--text-primary);
+}
+
+.light-theme .channel-manager-header p {
+  color: var(--text-secondary);
+}
+
+/* ================= DARK THEME ================= */
+
+.dark-theme .channel-manager-header h1 {
+  color: var(--text-primary);
+}
+
+.dark-theme .channel-manager-header p {
+  color: var(--text-secondary);
+}
+
 
 /* FORM CARD */
 
@@ -2439,3 +2492,865 @@ body {
   object-fit: cover;
 }
 
+
+
+
+/* Subscription History */
+
+
+/* =========================================================
+   TWITCHLEDGER — PREMIUM GLASS SUPPORT HISTORY
+========================================================= */
+
+.support-history {
+  width: 100%;
+  max-width: 1450px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+  color: var(--text-primary);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.support-history-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.support-history-header h1 {
+  margin: auto;
+  padding: 14px;
+
+  font-size: clamp(30px, 3vw, 40px);
+  font-weight: 850;
+  letter-spacing: -1.4px;
+
+  background: linear-gradient(120deg,
+      #ffffff 5%,
+      #e4d2ff 35%,
+      #b58aff 65%,
+      #9147ff 100%);
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  filter: drop-shadow(0 0 18px rgba(145, 71, 255, 0.12));
+}
+
+.support-history-header p {
+  margin-top: 13px;
+  color: var(--text-secondary);
+  font-size: 15px;
+  letter-spacing: 0.15px;
+}
+
+/* =========================================================
+   CREATOR GRID
+========================================================= */
+
+.subscription-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 24px;
+
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   GLASS CREATOR CARD
+========================================================= */
+
+.subscription-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  min-height: 290px;
+
+  padding: 32px 24px;
+
+  text-align: center;
+
+  /* Real translucent glass */
+  background:
+    linear-gradient(145deg,
+      rgba(145, 71, 255, 0.095),
+      rgba(85, 43, 145, 0.035) 45%,
+      rgba(25, 15, 43, 0.34));
+
+  backdrop-filter: blur(24px) saturate(155%);
+  -webkit-backdrop-filter: blur(24px) saturate(155%);
+
+  border: 1px solid rgba(195, 164, 255, 0.17);
+  border-radius: 24px;
+
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.075),
+    inset 0 -1px 0 rgba(145, 71, 255, 0.06);
+
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background 0.35s ease;
+}
+
+/* Purple atmospheric glow */
+
+.subscription-card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+
+  width: 280px;
+  height: 280px;
+
+  top: -185px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  background: radial-gradient(circle,
+      rgba(145, 71, 255, 0.45),
+      rgba(119, 44, 232, 0.14) 35%,
+      transparent 70%);
+
+  filter: blur(55px);
+  opacity: 0.45;
+
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+/* Soft glass reflection */
+
+.subscription-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+  border-radius: inherit;
+
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.055),
+      transparent 30%,
+      transparent 70%,
+      rgba(145, 71, 255, 0.035));
+
+  opacity: 0.8;
+}
+
+/* Hover */
+
+.subscription-card:hover {
+  transform: translateY(-8px);
+
+  background:
+    linear-gradient(145deg,
+      rgba(145, 71, 255, 0.15),
+      rgba(85, 43, 145, 0.055) 45%,
+      rgba(25, 15, 43, 0.42));
+
+  border-color: rgba(195, 164, 255, 0.38);
+
+  box-shadow:
+    0 22px 55px rgba(54, 20, 110, 0.24),
+    0 0 30px rgba(145, 71, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(145, 71, 255, 0.12);
+}
+
+.subscription-card:hover::before {
+  opacity: 0.8;
+  transform: translateX(-50%) scale(1.18);
+}
+
+/* =========================================================
+   CREATOR AVATAR
+========================================================= */
+
+.subscription-avatar {
+  position: relative;
+  z-index: 1;
+
+  display: block;
+
+  width: 88px;
+  height: 88px;
+  min-width: 88px;
+
+  object-fit: cover;
+  object-position: center;
+
+  border-radius: 50%;
+
+  padding: 3px;
+
+  background: rgba(145, 71, 255, 0.13);
+
+  border: 1px solid rgba(205, 179, 255, 0.65);
+
+  box-shadow:
+    0 0 0 5px rgba(145, 71, 255, 0.075),
+    0 0 25px rgba(145, 71, 255, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+
+  margin-bottom: 22px;
+
+  transition:
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.subscription-card:hover .subscription-avatar {
+  transform: scale(1.07);
+
+  border-color: rgba(225, 205, 255, 0.95);
+
+  box-shadow:
+    0 0 0 6px rgba(145, 71, 255, 0.1),
+    0 0 35px rgba(145, 71, 255, 0.36),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+/* =========================================================
+   CREATOR INFORMATION
+========================================================= */
+
+.subscription-info {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  min-width: 0;
+
+  gap: 9px;
+}
+
+.subscription-info h2 {
+  max-width: 100%;
+
+  margin: 0 0 5px;
+
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.35px;
+
+  color: #f5efff;
+
+  overflow-wrap: anywhere;
+}
+
+/* Followed label */
+
+.subscription-label {
+  color: #b794ff;
+
+  font-size: 11px;
+  font-weight: 850;
+
+  letter-spacing: 2px;
+}
+
+/* Duration */
+
+.subscription-duration {
+  margin: 0;
+
+  font-size: 26px;
+  font-weight: 850;
+  letter-spacing: -0.8px;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 0 22px rgba(145, 71, 255, 0.16);
+}
+
+/* Follow date */
+
+.followed-date {
+  margin: 4px 0 0;
+
+  font-size: 13px;
+  line-height: 1.7;
+
+  color: rgba(210, 195, 235, 0.68);
+}
+
+/* =========================================================
+   ERROR / EMPTY / LOADING
+========================================================= */
+
+.support-message.error {
+  padding: 18px 22px;
+  margin: 25px auto;
+
+  max-width: 900px;
+
+  color: #ff9ab8;
+
+  background: rgba(239, 68, 68, 0.075);
+
+  border: 1px solid rgba(239, 68, 68, 0.24);
+  border-radius: 16px;
+
+  backdrop-filter: blur(18px);
+}
+
+.support-empty,
+.support-history-loading {
+  text-align: center;
+
+  padding: 45px 20px;
+
+  color: var(--text-secondary);
+}
+
+/* =========================================================
+   LIGHT THEME
+========================================================= */
+
+.light-theme .support-history-header h1 {
+  background: linear-gradient(120deg,
+      #3b0764,
+      #772ce8,
+      #a855f7);
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.light-theme .subscription-card {
+  background:
+    linear-gradient(145deg,
+      rgba(255, 255, 255, 0.82),
+      rgba(245, 239, 255, 0.64));
+
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+
+  border-color: rgba(119, 44, 232, 0.16);
+
+  box-shadow:
+    0 12px 38px rgba(45, 30, 70, 0.065),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.light-theme .subscription-card:hover {
+  border-color: rgba(119, 44, 232, 0.38);
+
+  box-shadow:
+    0 20px 45px rgba(124, 58, 237, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.light-theme .subscription-info h2 {
+  color: #2b1745;
+}
+
+.light-theme .subscription-duration {
+  color: #35105f;
+}
+
+.light-theme .subscription-label {
+  color: #772ce8;
+}
+
+.light-theme .followed-date {
+  color: #756485;
+}
+
+.light-theme .subscription-avatar {
+  border-color: rgba(119, 44, 232, 0.35);
+}
+
+/* =========================================================
+   DARK THEME
+========================================================= */
+
+.dark-theme .subscription-card {
+  background:
+    linear-gradient(145deg,
+      rgba(145, 71, 255, 0.095),
+      rgba(85, 43, 145, 0.035) 45%,
+      rgba(25, 15, 43, 0.34));
+
+  backdrop-filter: blur(24px) saturate(155%);
+  -webkit-backdrop-filter: blur(24px) saturate(155%);
+
+  border-color: rgba(195, 164, 255, 0.17);
+}
+
+.dark-theme .subscription-card:hover {
+  border-color: rgba(195, 164, 255, 0.38);
+}
+
+.dark-theme .subscription-info h2 {
+  color: #f5efff;
+}
+
+.dark-theme .subscription-duration {
+  color: #ffffff;
+}
+
+.dark-theme .subscription-label {
+  color: #b794ff;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
+  .subscription-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .subscription-card {
+    min-height: 275px;
+  }
+}
+
+@media (max-width: 600px) {
+  .support-history {
+    padding: 25px 16px 55px;
+  }
+
+  .support-history-header {
+    margin-bottom: 30px;
+  }
+
+  .subscription-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .subscription-card {
+    min-height: 245px;
+    padding: 25px 18px;
+    border-radius: 20px;
+  }
+
+  .subscription-avatar {
+    width: 78px;
+    height: 78px;
+    min-width: 78px;
+  }
+
+  .subscription-info h2 {
+    font-size: 18px;
+  }
+
+  .subscription-duration {
+    font-size: 23px;
+  }
+
+  .followed-date {
+    font-size: 12px;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .subscription-card,
+  .subscription-avatar {
+    transition: none;
+  }
+
+  .subscription-card:hover,
+  .subscription-card:hover .subscription-avatar {
+    transform: none;
+  }
+}
+
+
+
+
+
+
+
+/* =========================================
+   FOLLOW HISTORY - CREATOR CARD DESIGN
+========================================= */
+
+.follow-history-section {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.follow-history-heading {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* GRID */
+.follow-history-section .channels-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+/* FOLLOW CARD */
+.follow-history-section .channel-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  padding: 24px 18px;
+  min-height: 245px;
+
+  background: linear-gradient(145deg,
+      rgba(35, 23, 51, 0.95),
+      rgba(19, 15, 29, 0.98));
+
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* HOVER */
+.follow-history-section .channel-card:hover {
+  transform: translateY(-5px);
+  border-color: #9333ea;
+
+  box-shadow: 0 8px 30px rgba(147, 51, 234, 0.15);
+}
+
+/* AVATAR */
+.follow-history-section .channel-avatar {
+  width: 76px;
+  height: 76px;
+
+  object-fit: cover;
+  border-radius: 16px;
+
+  border: 1px solid rgba(168, 85, 247, 0.35);
+
+  margin-bottom: 14px;
+}
+
+/* CHANNEL NAME */
+.follow-history-section .channel-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+
+  margin: 0 0 12px;
+
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* TWITCH LINK */
+.follow-history-section .channel-card a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 9px 18px;
+
+  background: rgba(126, 34, 206, 0.15);
+  border: 1px solid rgba(147, 51, 234, 0.55);
+  border-radius: 9px;
+
+  color: #c084fc;
+  text-decoration: none;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  transition: 0.2s ease;
+}
+
+.follow-history-section .channel-card a:hover {
+  background: #7e22ce;
+  color: white;
+}
+
+/* FOLLOW DATE */
+.follow-history-section .channel-card p {
+  margin: 14px 0 0;
+
+  font-size: 0.8rem;
+  color: var(--text-secondary, #aaa);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+  .follow-history-section .channels-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .follow-history-section .channels-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .follow-history-section .channel-card {
+    min-height: 220px;
+  }
+}
+
+
+/* ==========================================
+   FOLLOW HISTORY - BASE DESIGN
+========================================== */
+
+.follow-history-section {
+  width: 100%;
+  margin-top: 28px;
+  padding: 24px;
+  box-sizing: border-box;
+  border-radius: 18px;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.follow-history-heading {
+  text-align: center;
+  margin-bottom: 24px !important;
+  font-weight: 700 !important;
+}
+
+.follow-history-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.follow-history-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  padding: 24px 18px;
+  min-height: 235px;
+  box-sizing: border-box;
+
+  border-radius: 16px;
+  border: 1px solid var(--border);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.follow-history-card:hover {
+  transform: translateY(-4px);
+}
+
+.follow-history-avatar {
+  width: 76px;
+  height: 76px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 14px;
+}
+
+.follow-history-name {
+  margin: 0 0 14px !important;
+  font-size: 1.05rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.follow-history-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 9px 18px;
+  border-radius: 9px;
+  border: 1px solid var(--accent-border);
+
+  background: var(--accent-bg);
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  transition: 0.2s ease;
+}
+
+.follow-history-link:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.follow-history-date {
+  margin-top: 14px !important;
+  font-size: 0.8rem;
+}
+
+.follow-history-message {
+  text-align: center;
+  padding: 20px;
+}
+
+.follow-history-error {
+  color: #ef4444;
+}
+
+/* ==========================================
+   DARK THEME
+========================================== */
+
+.dark-theme .follow-history-section {
+  background: rgba(24, 18, 34, 0.75);
+  border: 1px solid rgba(147, 51, 234, 0.25);
+}
+
+.dark-theme .follow-history-card {
+  background: linear-gradient(145deg,
+      #21172f,
+      #17111f);
+  border-color: rgba(147, 51, 234, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+.dark-theme .follow-history-card:hover {
+  border-color: #9333ea;
+  box-shadow: 0 8px 25px rgba(147, 51, 234, 0.15);
+}
+
+.dark-theme .follow-history-name {
+  color: #f3e8ff;
+}
+
+.dark-theme .follow-history-date {
+  color: #a99bbd;
+}
+
+.dark-theme .follow-history-message {
+  color: #c4b5d5;
+}
+
+/* ==========================================
+   LIGHT THEME
+========================================== */
+
+.light-theme .follow-history-section {
+  background: #ffffff;
+  border: 1px solid #e9ddf5;
+  box-shadow: 0 6px 25px rgba(100, 50, 150, 0.06);
+}
+
+.light-theme .follow-history-card {
+  background: linear-gradient(145deg,
+      #ffffff,
+      #f8f4ff);
+  border-color: #e5d5f8;
+  box-shadow: 0 4px 15px rgba(100, 50, 150, 0.05);
+}
+
+.light-theme .follow-history-card:hover {
+  border-color: #b47aff;
+  box-shadow: 0 8px 25px rgba(147, 51, 234, 0.12);
+}
+
+.light-theme .follow-history-name {
+  color: #241333;
+}
+
+.light-theme .follow-history-date {
+  color: #766785;
+}
+
+.light-theme .follow-history-message {
+  color: #62536f;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1000px) {
+  .follow-history-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .follow-history-section {
+    padding: 14px;
+  }
+
+  .follow-history-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .follow-history-card {
+    min-height: 220px;
+  }
+}
+
+
+/* ================================
+   FOLLOW HISTORY - LIGHT THEME
+================================ */
+
+[data-theme="light"] .follow-history-section {
+  background: #ffffff;
+  color: #292235;
+}
+
+[data-theme="light"] .follow-history-heading {
+  color: #292235;
+}
+
+[data-theme="light"] .follow-history-section .channel-card {
+  background: #ffffff;
+  border: 1px solid #e5d9f7;
+  color: #292235;
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.08);
+}
+
+[data-theme="light"] .follow-history-section .channel-card h3 {
+  color: #292235;
+}
+
+[data-theme="light"] .follow-history-section .channel-card p {
+  color: #756b85;
+}
+
+[data-theme="light"] .follow-history-section .channel-card a {
+  color: #7c3aed;
+}
+
+[data-theme="light"] .follow-history-section .channel-card:hover {
+  border-color: #a855f7;
+  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.15);
+  transform: translateY(-3px);
+}

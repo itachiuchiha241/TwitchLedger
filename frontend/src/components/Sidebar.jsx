@@ -7,6 +7,7 @@ import {
   Sun,
   LogOut,
   Settings,
+  History,
 } from "lucide-react";
 
 function Sidebar({
@@ -57,6 +58,15 @@ function Sidebar({
         >
           <Settings size={18} />
           <span>Manage Channels</span>
+        </button>
+
+        {/* SUPPORT HISTORY */}
+        <button
+          className={`nav-item ${currentPage === "support" ? "active" : ""}`}
+          onClick={() => setCurrentPage("support")}
+        >
+          <History size={18} />
+          <span>Support History</span>
         </button>
       </nav>
 

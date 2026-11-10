@@ -1,24 +1,42 @@
+
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { Billboard, OrbitControls, Stars } from "@react-three/drei";
 import * as THREE from "three";
 import { useEffect, useMemo, useRef } from "react";
 
 import profilePic from "../assets/prem2.png";
-import { channels } from "../services/data";
 
-const ORBIT_DISTANCES = [2.0, 2.65, 3.35];
+// Expanded orbital distances
+const ORBIT_DISTANCES = [3.0, 4.5, 6.0];
+
+// Each ring rotates at a consistent speed so creators stay evenly spaced.
+const ORBIT_SPEEDS = [0.025, -0.018, 0.012];
+
 const GALAXY_Y_OFFSET = 0.35;
 const ORBIT_TILT = Math.atan2(0.65, 0.58);
 
-const HOME_CAMERA_POSITION = new THREE.Vector3(0, 0, 8);
+const HOME_CAMERA_POSITION = new THREE.Vector3(0, 0, 13);
 const HOME_CAMERA_TARGET = new THREE.Vector3(0, GALAXY_Y_OFFSET, 0);
 
-function getCreatorOrbit(index) {
-  const total = channels.length;
-  const angleOffset = (Math.PI * 2 / total) * index;
-  const orbitIndex = index % ORBIT_DISTANCES.length;
-  const radius = ORBIT_DISTANCES[orbitIndex];
-  const speed = 0.035 + (index % 4) * 0.008;
+// Distribute creators evenly across three rings.
+function getCreatorOrbit(index, total) {
+  const ringCount = ORBIT_DISTANCES.length;
+  const ringIndex = index % ringCount;
+
+  const positionInRing = Math.floor(index / ringCount);
+
+  const creatorsInRing = Math.ceil(
+    Math.max(total - ringIndex, 0) / ringCount
+  );
+
+  const safeCreatorsInRing = Math.max(creatorsInRing, 1);
+
+  const angleOffset =
+    (Math.PI * 2 / safeCreatorsInRing) * positionInRing;
+
+  const radius = ORBIT_DISTANCES[ringIndex];
+  const speed = ORBIT_SPEEDS[ringIndex];
+
   const verticalOffset = ((index % 3) - 1) * 0.08;
 
   return {
@@ -26,6 +44,7 @@ function getCreatorOrbit(index) {
     radius,
     speed,
     verticalOffset,
+    ringIndex,
   };
 }
 
@@ -39,12 +58,14 @@ function getOrbitPosition(angle, radius, verticalOffset = 0) {
 
 function GalaxyCore() {
   const profileTexture = useLoader(THREE.TextureLoader, profilePic);
+
   const coreTexture = useMemo(() => {
     const texture = profileTexture.clone();
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.needsUpdate = true;
     return texture;
   }, [profileTexture]);
+
   const coreRef = useRef(null);
   const glowRef = useRef(null);
 
@@ -53,67 +74,71 @@ function GalaxyCore() {
 
     if (coreRef.current) {
       coreRef.current.rotation.z = Math.sin(time * 0.25) * 0.025;
-      coreRef.current.scale.setScalar(1 + Math.sin(time * 1.5) * 0.02);
+      coreRef.current.scale.setScalar(
+        1 + Math.sin(time * 1.5) * 0.02
+      );
     }
 
     if (glowRef.current) {
-      glowRef.current.scale.setScalar(1 + Math.sin(time * 1.2) * 0.06);
+      glowRef.current.scale.setScalar(
+        1 + Math.sin(time * 1.2) * 0.06
+      );
     }
   });
 
   return (
     <group>
       <Billboard follow>
-      <mesh ref={glowRef} position={[0, 0, -0.15]}>
-        <circleGeometry args={[0.86, 64]} />
-        <meshBasicMaterial
-          color="#9147ff"
-          transparent
-          opacity={0.08}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
+        <mesh ref={glowRef} position={[0, 0, -0.15]}>
+          <circleGeometry args={[0.86, 64]} />
+          <meshBasicMaterial
+            color="#9147ff"
+            transparent
+            opacity={0.08}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </mesh>
 
-      <mesh position={[0, 0, -0.1]}>
-        <circleGeometry args={[0.74, 64]} />
-        <meshBasicMaterial
-          color="#a970ff"
-          transparent
-          opacity={0.11}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
+        <mesh position={[0, 0, -0.1]}>
+          <circleGeometry args={[0.74, 64]} />
+          <meshBasicMaterial
+            color="#a970ff"
+            transparent
+            opacity={0.11}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </mesh>
 
-      <mesh ref={coreRef}>
-        <circleGeometry args={[0.48, 64]} />
-        <meshBasicMaterial
-          map={coreTexture}
-          transparent
-          toneMapped={false}
-        />
-      </mesh>
+        <mesh ref={coreRef}>
+          <circleGeometry args={[0.48, 64]} />
+          <meshBasicMaterial
+            map={coreTexture}
+            transparent
+            toneMapped={false}
+          />
+        </mesh>
 
-      <mesh position={[0, 0, 0.03]}>
-        <torusGeometry args={[0.62, 0.014, 16, 96]} />
-        <meshBasicMaterial
-          color="#9147ff"
-          transparent
-          opacity={0.65}
-          blending={THREE.AdditiveBlending}
-        />
-      </mesh>
+        <mesh position={[0, 0, 0.03]}>
+          <torusGeometry args={[0.62, 0.014, 16, 96]} />
+          <meshBasicMaterial
+            color="#9147ff"
+            transparent
+            opacity={0.65}
+            blending={THREE.AdditiveBlending}
+          />
+        </mesh>
 
-      <mesh position={[0, 0, 0.02]}>
-        <torusGeometry args={[0.74, 0.009, 16, 96]} />
-        <meshBasicMaterial
-          color="#a970ff"
-          transparent
-          opacity={0.32}
-          blending={THREE.AdditiveBlending}
-        />
-      </mesh>
+        <mesh position={[0, 0, 0.02]}>
+          <torusGeometry args={[0.74, 0.009, 16, 96]} />
+          <meshBasicMaterial
+            color="#a970ff"
+            transparent
+            opacity={0.32}
+            blending={THREE.AdditiveBlending}
+          />
+        </mesh>
       </Billboard>
 
       <pointLight
@@ -127,29 +152,34 @@ function GalaxyCore() {
 }
 
 function GalaxyOrbitRings({ visible }) {
-  const ringOne = useRef(null);
-  const ringTwo = useRef(null);
-  const ringThree = useRef(null);
+  const ringRefs = useRef([]);
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
 
-    if (ringOne.current) ringOne.current.rotation.z = time * 0.08;
-    if (ringTwo.current) ringTwo.current.rotation.z = -time * 0.055;
-    if (ringThree.current) ringThree.current.rotation.z = time * 0.035;
+    ringRefs.current.forEach((ring, index) => {
+      if (!ring) return;
+
+      ring.rotation.z = time * ORBIT_SPEEDS[index];
+    });
   });
 
   if (!visible) return null;
 
   return (
     <group>
-      {[2.0, 2.65, 3.35].map((radius, index) => (
+      {ORBIT_DISTANCES.map((radius, index) => (
         <group key={radius} rotation={[ORBIT_TILT, 0, 0]}>
           <mesh
-            ref={[ringOne, ringTwo, ringThree][index]}
+            ref={(element) => {
+              ringRefs.current[index] = element;
+            }}
             position={[0, 0, -0.04 * (index + 1)]}
           >
-            <torusGeometry args={[radius, 0.007 - index * 0.001, 12, 128]} />
+            <torusGeometry
+              args={[radius, 0.007 - index * 0.001, 12, 128]}
+            />
+
             <meshBasicMaterial
               color={["#9147ff", "#a970ff", "#772ce8"][index]}
               transparent
@@ -167,29 +197,73 @@ function GalaxyOrbitRings({ visible }) {
 function CreatorOrbit({
   channel,
   index,
+  total,
   selectedCreator,
   setSelectedCreator,
 }) {
   const groupRef = useRef(null);
-  const texture = useLoader(THREE.TextureLoader, channel.avatar);
+
+  // Use a fallback avatar if the creator has no image.
+  // Load creator avatar separately from your own profile picture.
+  const texture = useLoader(
+    THREE.TextureLoader,
+    channel.avatar || profilePic
+  );
+
   const avatarTexture = useMemo(() => {
+    // Creator has no avatar: show a neutral purple placeholder.
+    if (!channel.avatar) {
+      const canvas = document.createElement("canvas");
+      canvas.width = 128;
+      canvas.height = 128;
+
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "#24103d";
+      ctx.fillRect(0, 0, 128, 128);
+
+      ctx.fillStyle = "#9147ff";
+      ctx.beginPath();
+      ctx.arc(64, 64, 42, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 48px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(
+        (channel.name || "?").charAt(0).toUpperCase(),
+        64,
+        64
+      );
+
+      const placeholder = new THREE.CanvasTexture(canvas);
+      placeholder.colorSpace = THREE.SRGBColorSpace;
+      placeholder.needsUpdate = true;
+
+      return placeholder;
+    }
+
     const nextTexture = texture.clone();
     nextTexture.colorSpace = THREE.SRGBColorSpace;
     nextTexture.needsUpdate = true;
+
     return nextTexture;
-  }, [texture]);
+  }, [texture, channel.avatar, channel.name]);
 
   const { angleOffset, radius, speed, verticalOffset } =
-    getCreatorOrbit(index);
+    getCreatorOrbit(index, total);
 
-  const supportScore = channel.subs * 10 + channel.bits;
+  const supportScore = (channel.subs || 0) * 10 + (channel.bits || 0);
 
   const creatorSize = Math.min(
     0.22,
     Math.max(0.14, 0.14 + supportScore / 350000)
   );
 
-  const isSelected = selectedCreator?.name === channel.name;
+  const isSelected = selectedCreator?.id
+    ? selectedCreator.id === channel.id
+    : selectedCreator?.name === channel.name;
 
   useEffect(() => {
     return () => {
@@ -200,6 +274,7 @@ function CreatorOrbit({
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
     const angle = angleOffset + time * speed;
+
     const position = getOrbitPosition(
       angle,
       radius,
@@ -215,6 +290,7 @@ function CreatorOrbit({
     );
 
     const targetScale = isSelected ? 1.3 : 1;
+
     const nextScale = THREE.MathUtils.lerp(
       groupRef.current.scale.x,
       targetScale,
@@ -231,87 +307,95 @@ function CreatorOrbit({
 
   const handlePointerOver = (event) => {
     event.stopPropagation();
-    event.nativeEvent.target.style.cursor = "pointer";
+    document.body.style.cursor = "pointer";
   };
 
-  const handlePointerOut = (event) => {
-    event.nativeEvent.target.style.cursor = "grab";
+  const handlePointerOut = () => {
+    document.body.style.cursor = "grab";
   };
 
   return (
     <group ref={groupRef}>
       <Billboard follow>
-      <mesh
-        position={[0, 0, -0.04]}
-        onClick={handleClick}
-        onPointerOver={handlePointerOver}
-        onPointerOut={handlePointerOut}
-      >
-        <circleGeometry
-          args={[creatorSize * (isSelected ? 1.6 : 1.3), 48]}
-        />
-        <meshBasicMaterial
-          color="#9147ff"
-          transparent
-          opacity={isSelected ? 0.2 : 0.08}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
+        <mesh
+          position={[0, 0, -0.04]}
+          onClick={handleClick}
+          onPointerOver={handlePointerOver}
+          onPointerOut={handlePointerOut}
+        >
+          <circleGeometry
+            args={[creatorSize * (isSelected ? 1.6 : 1.3), 48]}
+          />
 
-      <mesh
-        onClick={handleClick}
-        onPointerOver={handlePointerOver}
-        onPointerOut={handlePointerOut}
-      >
-        <circleGeometry args={[creatorSize, 48]} />
-        <meshBasicMaterial
-          map={avatarTexture}
-          transparent
-          toneMapped={false}
-        />
-      </mesh>
+          <meshBasicMaterial
+            color="#9147ff"
+            transparent
+            opacity={isSelected ? 0.2 : 0.08}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </mesh>
 
-      <mesh
-        position={[0, 0, 0.02]}
-        onClick={handleClick}
-        onPointerOver={handlePointerOver}
-        onPointerOut={handlePointerOut}
-      >
-        <torusGeometry
-          args={[
-            creatorSize + (isSelected ? 0.06 : 0.035),
-            isSelected ? 0.014 : 0.009,
-            12,
-            48,
-          ]}
-        />
-        <meshBasicMaterial
-          color={channel.verified ? "#a970ff" : "#772ce8"}
-          transparent
-          opacity={
-            isSelected
-              ? 1
-              : channel.verified
-                ? 0.75
-                : 0.45
-          }
-          blending={THREE.AdditiveBlending}
-        />
-      </mesh>
+        <mesh
+          onClick={handleClick}
+          onPointerOver={handlePointerOver}
+          onPointerOut={handlePointerOut}
+        >
+          <circleGeometry args={[creatorSize, 48]} />
+
+          <meshBasicMaterial
+            map={avatarTexture}
+            transparent
+            toneMapped={false}
+          />
+        </mesh>
+
+        <mesh
+          position={[0, 0, 0.02]}
+          onClick={handleClick}
+          onPointerOver={handlePointerOver}
+          onPointerOut={handlePointerOut}
+        >
+          <torusGeometry
+            args={[
+              creatorSize + (isSelected ? 0.06 : 0.035),
+              isSelected ? 0.014 : 0.009,
+              12,
+              48,
+            ]}
+          />
+
+          <meshBasicMaterial
+            color={channel.verified ? "#a970ff" : "#772ce8"}
+            transparent
+            opacity={
+              isSelected
+                ? 1
+                : channel.verified
+                  ? 0.75
+                  : 0.45
+            }
+            blending={THREE.AdditiveBlending}
+          />
+        </mesh>
       </Billboard>
     </group>
   );
 }
 
-function Creators({ selectedCreator, setSelectedCreator }) {
+function Creators({
+  channels,
+  selectedCreator,
+  setSelectedCreator,
+}) {
   return (
     <group>
       {channels.map((channel, index) => (
         <CreatorOrbit
-          key={channel.name}
+          key={channel.id || channel.name}
           channel={channel}
           index={index}
+          total={channels.length}
           selectedCreator={selectedCreator}
           setSelectedCreator={setSelectedCreator}
         />
@@ -320,34 +404,54 @@ function Creators({ selectedCreator, setSelectedCreator }) {
   );
 }
 
-function OrbitCamera({ selectedCreator, controlsRef }) {
+function OrbitCamera({
+  channels,
+  selectedCreator,
+  controlsRef,
+}) {
   const lookTargetRef = useRef(new THREE.Vector3());
   const wasSelectedRef = useRef(false);
 
   useFrame((state, delta) => {
     const camera = state.camera;
     const time = state.clock.getElapsedTime();
+
     const positionDamping = 1 - Math.exp(-delta * 3.2);
     const targetDamping = 1 - Math.exp(-delta * 5);
 
     if (!selectedCreator) {
       if (!wasSelectedRef.current) return;
 
-      camera.position.lerp(HOME_CAMERA_POSITION, positionDamping);
-      lookTargetRef.current.lerp(HOME_CAMERA_TARGET, targetDamping);
+      camera.position.lerp(
+        HOME_CAMERA_POSITION,
+        positionDamping
+      );
+
+      lookTargetRef.current.lerp(
+        HOME_CAMERA_TARGET,
+        targetDamping
+      );
 
       if (controlsRef.current) {
-        controlsRef.current.target.lerp(HOME_CAMERA_TARGET, targetDamping);
+        controlsRef.current.target.lerp(
+          HOME_CAMERA_TARGET,
+          targetDamping
+        );
+
         controlsRef.current.update();
       } else {
         camera.lookAt(lookTargetRef.current);
       }
 
-      if (camera.position.distanceTo(HOME_CAMERA_POSITION) < 0.02) {
+      if (
+        camera.position.distanceTo(HOME_CAMERA_POSITION) < 0.02
+      ) {
         camera.position.copy(HOME_CAMERA_POSITION);
         lookTargetRef.current.copy(HOME_CAMERA_TARGET);
+
         controlsRef.current?.target.copy(HOME_CAMERA_TARGET);
         controlsRef.current?.update();
+
         wasSelectedRef.current = false;
       }
 
@@ -356,18 +460,16 @@ function OrbitCamera({ selectedCreator, controlsRef }) {
 
     wasSelectedRef.current = true;
 
-    const selectedIndex = channels.findIndex(
-      (channel) => channel.name === selectedCreator.name
+    const selectedIndex = channels.findIndex((channel) =>
+      selectedCreator.id
+        ? channel.id === selectedCreator.id
+        : channel.name === selectedCreator.name
     );
 
     if (selectedIndex === -1) return;
 
-    const {
-      angleOffset,
-      radius,
-      speed,
-      verticalOffset,
-    } = getCreatorOrbit(selectedIndex);
+    const { angleOffset, radius, speed, verticalOffset } =
+      getCreatorOrbit(selectedIndex, channels.length);
 
     const creatorAngle = angleOffset + time * speed;
 
@@ -378,6 +480,7 @@ function OrbitCamera({ selectedCreator, controlsRef }) {
     );
 
     creatorPosition.y += GALAXY_Y_OFFSET;
+
     creatorPosition.y +=
       Math.sin(time * 1.2 + selectedIndex) * 0.025;
 
@@ -400,8 +503,16 @@ function OrbitCamera({ selectedCreator, controlsRef }) {
 
     const targetLookAt = creatorPosition.clone();
 
-    camera.position.lerp(desiredCameraPosition, positionDamping);
-    lookTargetRef.current.lerp(targetLookAt, targetDamping);
+    camera.position.lerp(
+      desiredCameraPosition,
+      positionDamping
+    );
+
+    lookTargetRef.current.lerp(
+      targetLookAt,
+      targetDamping
+    );
+
     camera.lookAt(lookTargetRef.current);
   });
 
@@ -409,6 +520,7 @@ function OrbitCamera({ selectedCreator, controlsRef }) {
 }
 
 function GalaxyContent({
+  channels,
   selectedCreator,
   setSelectedCreator,
 }) {
@@ -431,6 +543,7 @@ function GalaxyContent({
       <GalaxyOrbitRings visible={!selectedCreator} />
 
       <Creators
+        channels={channels}
         selectedCreator={selectedCreator}
         setSelectedCreator={setSelectedCreator}
       />
@@ -438,22 +551,27 @@ function GalaxyContent({
   );
 }
 
-function GalaxyScene({ selectedCreator, setSelectedCreator }) {
+function GalaxyScene({
+  channels = [],
+  selectedCreator,
+  setSelectedCreator,
+}) {
   const controlsRef = useRef(null);
 
   return (
     <Canvas
-      camera={{
-        position: [0, 0, 8],
-        fov: 60,
-      }}
+      camera={{ position: [0, 0, 13], fov: 60 }}
       dpr={[1, 2]}
       onPointerMissed={() => setSelectedCreator(null)}
-      gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}
+      gl={{
+        antialias: true,
+        toneMapping: THREE.ACESFilmicToneMapping,
+      }}
     >
       <color attach="background" args={["#030108"]} />
 
       <OrbitCamera
+        channels={channels}
         selectedCreator={selectedCreator}
         controlsRef={controlsRef}
       />
@@ -467,13 +585,14 @@ function GalaxyScene({ selectedCreator, setSelectedCreator }) {
         dampingFactor={0.08}
         rotateSpeed={0.55}
         zoomSpeed={0.75}
-        minDistance={4.5}
-        maxDistance={15}
+        minDistance={6}
+        maxDistance={24}
         minPolarAngle={Math.PI * 0.22}
         maxPolarAngle={Math.PI * 0.78}
       />
 
       <GalaxyContent
+        channels={channels}
         selectedCreator={selectedCreator}
         setSelectedCreator={setSelectedCreator}
       />

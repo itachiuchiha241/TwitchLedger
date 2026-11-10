@@ -1,22 +1,23 @@
 
 import { useState, useEffect } from "react";
-import ChannelManager from "../components/ChannelManager";
-import { getTwitchUser } from "../services/twitchApi";
-import { fetchChannels } from "../services/channelApi";
 
+import ChannelManager from "../components/ChannelManager";
 import Sidebar from "../components/Sidebar";
 import ProfileCard from "../components/ProfileCard";
 import StatsCard from "../components/StatsCard";
 import SupportedChannels from "../components/SupportedChannels";
+import FollowHistory from "../components/FollowHistory";
 import Channels from "../components/Channels";
 import SupportGalaxy from "../components/SupportGalaxy";
 import Footer from "../components/Footer";
+import SupportHistory from "../components/SupportHistory";
+
+import { getTwitchUser } from "../services/twitchApi";
+import { fetchChannels } from "../services/channelApi";
 
 function Dashboard({ onLogout }) {
   // SEARCH
   const [searchTerm, setSearchTerm] = useState("");
-
-  // TWITCH USER SEARCH RESULT
   const [userData, setUserData] = useState(null);
 
   // CURRENT PAGE
@@ -28,7 +29,7 @@ function Dashboard({ onLogout }) {
     return savedTheme === "light" ? false : true;
   });
 
-  // CHANNEL DATA FROM MONGODB
+  // CHANNEL DATA
   const [channels, setChannels] = useState([]);
   const [channelsLoading, setChannelsLoading] = useState(true);
 
@@ -37,7 +38,7 @@ function Dashboard({ onLogout }) {
     localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
-  // FETCH CHANNELS FROM MONGODB
+  // FETCH CHANNELS
   useEffect(() => {
     async function loadChannels() {
       try {
@@ -57,9 +58,7 @@ function Dashboard({ onLogout }) {
 
   // TWITCH USER SEARCH
   const handleSearch = async (e) => {
-    if (e.key !== "Enter") {
-      return;
-    }
+    if (e.key !== "Enter") return;
 
     const trimmedSearch = searchTerm.trim();
 
@@ -79,12 +78,12 @@ function Dashboard({ onLogout }) {
 
   // DASHBOARD STATISTICS
   const totalSubs = channels.reduce(
-    (total, channel) => total + channel.subs,
+    (total, channel) => total + (channel.subs || 0),
     0
   );
 
   const totalBits = channels.reduce(
-    (total, channel) => total + channel.bits,
+    (total, channel) => total + (channel.bits || 0),
     0
   );
 
@@ -97,11 +96,10 @@ function Dashboard({ onLogout }) {
   // RENDER
   return (
     <div
-      className={`dashboard-layout ${
-        darkMode ? "dark-theme" : "light-theme"
-      }`}
+      className={`dashboard-layout ${darkMode ? "dark-theme" : "light-theme"
+        }`}
     >
-      {/* TOP NAVIGATION */}
+      {/* SIDEBAR */}
       <Sidebar
         darkMode={darkMode}
         setDarkMode={setDarkMode}
@@ -112,7 +110,6 @@ function Dashboard({ onLogout }) {
 
       {/* MAIN CONTENT */}
       <main className="main-content">
-        {/* SUPPORT GALAXY */}
         {currentPage === "galaxy" ? (
           <div className="galaxy-fullscreen">
             <SupportGalaxy />
@@ -121,6 +118,8 @@ function Dashboard({ onLogout }) {
           <Channels />
         ) : currentPage === "manage" ? (
           <ChannelManager />
+        ) : currentPage === "support" ? (
+          <SupportHistory />
         ) : (
           <>
             {/* DASHBOARD HEADER */}
@@ -220,10 +219,14 @@ function Dashboard({ onLogout }) {
                 value={channelsLoading ? "..." : totalVerified}
               />
             </section>
-
-            {/* SUPPORTED CHANNELS */}
+            
+            {/* SUPPORTED CHANNELS + FOLLOW HISTORY */}
             <section className="content-grid">
               <SupportedChannels searchTerm={searchTerm} />
+            </section>
+
+            <section className="content-grid">
+              <FollowHistory />
             </section>
           </>
         )}

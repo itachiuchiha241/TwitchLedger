@@ -16,7 +16,8 @@ router.get("/twitch", (req, res) => {
     client_id: process.env.TWITCH_CLIENT_ID,
     redirect_uri: process.env.TWITCH_REDIRECT_URI,
     response_type: "code",
-    scope: "user:read:email bits:read channel:read:subscriptions",
+    scope:
+      "user:read:email bits:read channel:read:subscriptions user:read:subscriptions user:read:follows",
     state,
   });
 
@@ -40,6 +41,7 @@ router.get("/twitch/callback", async (req, res) => {
 
     delete req.session.oauthState;
 
+    // Exchange authorization code for access token
     const tokenResponse = await axios.post(
       "https://id.twitch.tv/oauth2/token",
       null,
@@ -60,6 +62,7 @@ router.get("/twitch/callback", async (req, res) => {
       expires_in,
     } = tokenResponse.data;
 
+    // Get Twitch user information
     const userResponse = await axios.get(
       "https://api.twitch.tv/helix/users",
       {
@@ -76,6 +79,7 @@ router.get("/twitch/callback", async (req, res) => {
       return res.status(400).send("Unable to retrieve Twitch user.");
     }
 
+    // Save Twitch user and OAuth tokens
     const user = await User.findOneAndUpdate(
       { twitchId: twitchUser.id },
       {
@@ -85,7 +89,9 @@ router.get("/twitch/callback", async (req, res) => {
         profileImage: twitchUser.profile_image_url,
         accessToken: access_token,
         refreshToken: refresh_token,
-        tokenExpiresAt: new Date(Date.now() + expires_in * 1000),
+        tokenExpiresAt: new Date(
+          Date.now() + expires_in * 1000
+        ),
       },
       {
         upsert: true,
@@ -94,18 +100,19 @@ router.get("/twitch/callback", async (req, res) => {
       }
     );
 
-    req.session.regenerate((error) => {
-      if (error) {
-        console.error("Session regeneration error:", error);
+    // Regenerate session after login
+    req.session.regenerate((sessionError) => {
+      if (sessionError) {
+        console.error("Session regeneration error:", sessionError);
         return res.status(500).send("Session creation failed.");
       }
 
       req.session.userId = user._id.toString();
       req.session.twitchId = user.twitchId;
 
-      req.session.save((error) => {
-        if (error) {
-          console.error("Session save error:", error);
+      req.session.save((saveError) => {
+        if (saveError) {
+          console.error("Session save error:", saveError);
           return res.status(500).send("Session save failed.");
         }
 

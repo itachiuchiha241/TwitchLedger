@@ -1,6 +1,5 @@
 
 import { useEffect, useState, useCallback } from "react";
-
 import {
   Pencil,
   Trash2,
@@ -17,6 +16,7 @@ const emptyForm = {
   name: "",
   twitchUrl: "",
   avatar: "",
+  description: "",
   subs: 0,
   bits: 0,
   verified: false,
@@ -48,13 +48,11 @@ function ChannelManager() {
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(
-          data.error || "Failed to fetch channels"
-        );
+        throw new Error(data.error || "Failed to fetch channels");
       }
 
       if (!Array.isArray(data)) {
-        throw new Error("Invalid channel response from server");
+        throw new Error("Invalid channel response");
       }
 
       setChannels(data);
@@ -68,49 +66,12 @@ function ChannelManager() {
 
   // Load channels when component mounts
   useEffect(() => {
-    let cancelled = false;
+    const timer = setTimeout(() => {
+      loadChannels();
+    }, 0);
 
-    async function initializeChannels() {
-      try {
-        setError("");
-
-        const response = await fetch(API_URL, {
-          credentials: "include",
-        });
-
-        const data = await response.json().catch(() => ({}));
-
-        if (!response.ok) {
-          throw new Error(
-            data.error || "Failed to fetch channels"
-          );
-        }
-
-        if (!Array.isArray(data)) {
-          throw new Error("Invalid channel response");
-        }
-
-        if (!cancelled) {
-          setChannels(data);
-        }
-      } catch (err) {
-        if (!cancelled) {
-          setError(err.message || "Failed to load channels");
-          setChannels([]);
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    }
-
-    initializeChannels();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    return () => clearTimeout(timer);
+  }, [loadChannels]);
 
   // Fetch Twitch creator profile
   async function handleFetchTwitch() {
@@ -148,12 +109,15 @@ function ChannelManager() {
         throw new Error("Twitch user not found.");
       }
 
-      // Automatically populate creator information
+      // Automatically populate Twitch creator information
       setForm((previous) => ({
         ...previous,
-        name: user.display_name,
-        twitchUrl: `https://www.twitch.tv/${user.login}`,
-        avatar: user.profile_image_url,
+        name: user.display_name || user.login || "",
+        twitchUrl: user.login
+          ? `https://www.twitch.tv/${user.login}`
+          : "",
+        avatar: user.profile_image_url || "",
+        description: user.description || "",
       }));
 
       setMessage("Twitch profile fetched successfully!");
@@ -191,6 +155,7 @@ function ChannelManager() {
       name: channel.name || "",
       twitchUrl: channel.twitchUrl || "",
       avatar: channel.avatar || "",
+      description: channel.description || "",
       subs: channel.subs ?? 0,
       bits: channel.bits ?? 0,
       verified: channel.verified || false,
@@ -214,6 +179,7 @@ function ChannelManager() {
         name: form.name.trim(),
         twitchUrl: form.twitchUrl.trim(),
         avatar: form.avatar.trim(),
+        description: form.description.trim(),
         subs: Number(form.subs),
         bits: Number(form.bits),
         verified: form.verified,
@@ -234,18 +200,16 @@ function ChannelManager() {
       const result = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(
-          result.error || "Failed to save channel"
-        );
+        throw new Error(result.error || "Failed to save channel");
       }
 
-      setMessage(
-        editingId
-          ? "Channel updated successfully!"
-          : "Channel added successfully!"
-      );
+      const successMessage = editingId
+        ? "Channel updated successfully!"
+        : "Channel added successfully!";
 
       resetForm();
+      setMessage(successMessage);
+
       await loadChannels();
     } catch (err) {
       setError(err.message || "Failed to save channel");
@@ -272,9 +236,7 @@ function ChannelManager() {
       const result = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(
-          result.error || "Failed to delete channel"
-        );
+        throw new Error(result.error || "Failed to delete channel");
       }
 
       if (editingId === channel._id) {
@@ -383,6 +345,18 @@ function ChannelManager() {
                 onChange={handleChange}
                 placeholder="/assets/channel.png or image URL"
                 required
+              />
+            </label>
+
+            {/* TWITCH BIO */}
+            <label className="channel-form-field channel-form-full">
+              Twitch Bio / About
+              <textarea
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                placeholder="Creator's Twitch bio"
+                rows={4}
               />
             </label>
 

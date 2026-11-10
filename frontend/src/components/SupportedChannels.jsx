@@ -20,31 +20,30 @@ import {
   getRemaining,
 } from "../services/badgeUtils";
 
+import { fetchChannelBadges } from "../services/badgeApi";
+
 // Resolve MongoDB avatar paths to actual Vite asset URLs
-const avatarImages = import.meta.glob(
-  "../assets/*",
-  {
-    eager: true,
-    query: "?url",
-    import: "default",
-  }
-);
+const avatarImages = import.meta.glob("../assets/*", {
+  eager: true,
+  query: "?url",
+  import: "default",
+});
 
 function getAvatarUrl(avatar) {
+  if (!avatar) return "/default-avatar.png";
+
   const filename = avatar.split("/").pop();
 
-  return (
-    avatarImages[`../assets/${filename}`] ||
-    avatar
-  );
+  return avatarImages[`../assets/${filename}`] || avatar;
 }
 
 function SupportedChannels({ searchTerm = "" }) {
   const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [twitchBadges, setTwitchBadges] = useState({});
 
-  // Fetch channels from MongoDB through Express
+  // Fetch channels from MongoDB
   useEffect(() => {
     async function loadChannels() {
       try {
@@ -68,26 +67,81 @@ function SupportedChannels({ searchTerm = "" }) {
     loadChannels();
   }, []);
 
+  // Fetch Twitch badge images for channels
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadTwitchBadges() {
+      const results = {};
+
+      for (const channel of channels) {
+        // Twitch API requires broadcaster ID
+        const broadcasterId = channel.twitchId;
+
+        if (!broadcasterId) continue;
+
+        try {
+          results[broadcasterId] =
+            await fetchChannelBadges(broadcasterId);
+        } catch (error) {
+          console.error(
+            `Badge loading failed for ${channel.name}:`,
+            error.message
+          );
+        }
+      }
+
+      if (!cancelled) {
+        setTwitchBadges(results);
+      }
+    }
+
+    if (channels.length > 0) {
+      loadTwitchBadges();
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, [channels]);
+
   // Search channels
   const filteredChannels = channels.filter((channel) =>
-    channel.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
+    channel.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Select Twitch badge image, otherwise use local image
+  function getSubBadgeUrl(channel, localBadge) {
+    const badgeData = twitchBadges[channel.twitchId];
+
+    const twitchBadge = badgeData?.subGift?.[0];
+
+    return (
+      twitchBadge?.image_url_2x ||
+      twitchBadge?.image_url_1x ||
+      getGiftBadgeImage(localBadge)
+    );
+  }
+
+  function getBitsBadgeUrl(channel, localBadge) {
+    const badgeData = twitchBadges[channel.twitchId];
+
+    const twitchBadge = badgeData?.bits?.[0];
+
+    return (
+      twitchBadge?.image_url_2x ||
+      twitchBadge?.image_url_1x ||
+      getBitsBadgeImage(localBadge)
+    );
+  }
 
   return (
     <div className="card supported-channels">
-      <h2>Supported Channels</h2>
+      <h2>Supported Channels + Follow Channels</h2>
 
-      {loading && (
-        <p>Loading channels...</p>
-      )}
+      {loading && <p>Loading channels...</p>}
 
-      {error && (
-        <p className="error-message">
-          {error}
-        </p>
-      )}
+      {error && <p className="error-message">{error}</p>}
 
       {!loading && !error && filteredChannels.length === 0 && (
         <p>No channels found.</p>
@@ -137,14 +191,15 @@ function SupportedChannels({ searchTerm = "" }) {
             );
 
             return (
-              <li
-                key={channel.name}
-                className="channel-item"
-              >
+              <li key={channel.name} className="channel-item">
                 <img
                   src={getAvatarUrl(channel.avatar)}
                   alt={channel.name}
                   className="channel-avatar"
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = "/default-avatar.png";
+                  }}
                 />
 
                 <div className="channel-info">
@@ -175,23 +230,18 @@ function SupportedChannels({ searchTerm = "" }) {
                     )}
                   </div>
 
-                  <p>
-                    {channel.subs.toLocaleString()} Subs Gifted
-                  </p>
-
-                  <p>
-                    {channel.bits.toLocaleString()} Bits Donated
-                  </p>
+                  <p>{channel.subs.toLocaleString()} Subs Gifted</p>
+                  <p>{channel.bits.toLocaleString()} Bits Donated</p>
                 </div>
 
                 <div className="channel-progress">
-                  {/* SUB BADGES */}
+                  {/* SUB GIFT BADGES */}
                   <div className="badge-row">
                     <div className="badge-container">
                       {currentSubBadge ? (
                         <img
-                          src={getGiftBadgeImage(currentSubBadge)}
-                          alt="Current Sub Badge"
+                          src={getSubBadgeUrl(channel, currentSubBadge)}
+                          alt="Current Sub Gift Badge"
                           className="badge-icon"
                         />
                       ) : (
@@ -202,17 +252,15 @@ function SupportedChannels({ searchTerm = "" }) {
                     <div className="progress-bar">
                       <div
                         className="progress-fill"
-                        style={{
-                          width: `${subProgress}%`,
-                        }}
+                        style={{ width: `${subProgress}%` }}
                       />
                     </div>
 
                     <div className="badge-container">
                       {nextSubBadge ? (
                         <img
-                          src={getGiftBadgeImage(nextSubBadge)}
-                          alt="Next Sub Badge"
+                          src={getSubBadgeUrl(channel, nextSubBadge)}
+                          alt="Next Sub Gift Badge"
                           className="badge-icon"
                         />
                       ) : (
@@ -232,7 +280,7 @@ function SupportedChannels({ searchTerm = "" }) {
                     <div className="badge-container">
                       {currentBitsBadge ? (
                         <img
-                          src={getBitsBadgeImage(currentBitsBadge)}
+                          src={getBitsBadgeUrl(channel, currentBitsBadge)}
                           alt="Current Bits Badge"
                           className="badge-icon"
                         />
@@ -244,16 +292,14 @@ function SupportedChannels({ searchTerm = "" }) {
                     <div className="progress-bar">
                       <div
                         className="progress-fill"
-                        style={{
-                          width: `${bitsProgress}%`,
-                        }}
+                        style={{ width: `${bitsProgress}%` }}
                       />
                     </div>
 
                     <div className="badge-container">
                       {nextBitsBadge ? (
                         <img
-                          src={getBitsBadgeImage(nextBitsBadge)}
+                          src={getBitsBadgeUrl(channel, nextBitsBadge)}
                           alt="Next Bits Badge"
                           className="badge-icon"
                         />

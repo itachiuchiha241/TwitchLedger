@@ -16,6 +16,13 @@ const channelSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // Twitch broadcaster ID
+    twitchId: {
+      type: String,
+      default: null,
+      index: true,
+    },
+
     verified: {
       type: Boolean,
       default: false,
