@@ -51,8 +51,9 @@ function getCreatorOrbit(index, total) {
 function getOrbitPosition(angle, radius, verticalOffset = 0) {
   return new THREE.Vector3(
     Math.cos(angle) * radius,
-    Math.sin(angle) * radius * 0.58 + verticalOffset,
-    Math.sin(angle) * 0.65
+    Math.sin(angle) * radius * Math.cos(ORBIT_TILT) +
+    verticalOffset,
+    Math.sin(angle) * radius * Math.sin(ORBIT_TILT)
   );
 }
 
@@ -587,8 +588,8 @@ function GalaxyScene({
         zoomSpeed={0.75}
         minDistance={6}
         maxDistance={24}
-        minPolarAngle={Math.PI * 0.22}
-        maxPolarAngle={Math.PI * 0.78}
+        minPolarAngle={0}
+        maxPolarAngle={Math.PI}
       />
 
       <GalaxyContent
